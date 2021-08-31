@@ -1,0 +1,12 @@
+/* Style for the bit lights
+    > First is default: OFF
+    > Second is: ON
+    */
+
+.bit .box {
+    -fx-background-color: #818285;
+}
+
+.bit:selected .box, .bit:selected .mark{
+    -fx-background-color: #fce303;
+}
