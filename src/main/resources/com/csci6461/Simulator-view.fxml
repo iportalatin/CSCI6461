@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <CheckBox layoutX="45.0" layoutY="104.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+      <HBox fx:id="tempBitGroup" alignment="CENTER_LEFT" layoutX="129.0" layoutY="48.0" prefHeight="21.0" prefWidth="213.0">
+         <children>
+            <CheckBox fx:id="tempBit2048" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+            <CheckBox fx:id="tempBit1024" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+            <CheckBox fx:id="tempBit512" layoutX="26.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+            <CheckBox fx:id="tempBit256" layoutX="42.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+            <CheckBox fx:id="tempBit128" layoutX="58.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+            <CheckBox fx:id="tempBit64" layoutX="74.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+            <CheckBox fx:id="tempBit32" layoutX="90.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+            <CheckBox fx:id="tempBit16" layoutX="106.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+            <CheckBox fx:id="tempBit8" layoutX="122.0" layoutY="12.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+            <CheckBox fx:id="tempBit4" layoutX="138.0" layoutY="12.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+            <CheckBox fx:id="tempBit2" layoutX="138.0" layoutY="12.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+            <CheckBox fx:id="tempBit1" layoutX="170.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+         </children>
+         <opaqueInsets>
+            <Insets left="5.0" right="5.0" />
+         </opaqueInsets>
+      </HBox>
+      <Label layoutX="14.0" layoutY="48.0" text="Example Register">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

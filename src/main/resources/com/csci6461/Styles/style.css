@@ -3,6 +3,10 @@
     > Second is: ON
     */
 
+.bit {
+    -fx-padding: 2;
+}
+
 .bit .box {
     -fx-background-color: #818285;
 }
