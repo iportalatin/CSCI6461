@@ -5,12 +5,11 @@
 
 .bit {
     -fx-padding: 2;
-}
-
-.bit .box {
     -fx-background-color: #818285;
+    -fx-text-fill: #000000;
 }
 
-.bit:selected .box, .bit:selected .mark{
+.bit:selected {
+
     -fx-background-color: #fce303;
 }

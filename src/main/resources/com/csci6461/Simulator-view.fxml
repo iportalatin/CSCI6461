@@ -3,32 +3,154 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox fx:id="tempBitGroup" alignment="CENTER_LEFT" layoutX="129.0" layoutY="48.0" prefHeight="21.0" prefWidth="213.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff49" height="67.0" layoutX="20.0" layoutY="619.0" stroke="TRANSPARENT" strokeType="INSIDE" width="228.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff49" height="67.0" layoutX="277.0" layoutY="619.0" stroke="TRANSPARENT" strokeType="INSIDE" width="85.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff49" height="67.0" layoutX="387.0" layoutY="619.0" stroke="TRANSPARENT" strokeType="INSIDE" width="85.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff49" height="67.0" layoutX="491.0" layoutY="619.0" stroke="TRANSPARENT" strokeType="INSIDE" width="52.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff49" height="67.0" layoutX="566.0" layoutY="619.0" stroke="TRANSPARENT" strokeType="INSIDE" width="194.0" />
+      <HBox alignment="TOP_RIGHT" layoutX="549.0" layoutY="629.0" prefHeight="47.0" prefWidth="200.0" spacing="5.0">
          <children>
-            <CheckBox fx:id="tempBit2048" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
-            <CheckBox fx:id="tempBit1024" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
-            <CheckBox fx:id="tempBit512" layoutX="26.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
-            <CheckBox fx:id="tempBit256" layoutX="42.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
-            <CheckBox fx:id="tempBit128" layoutX="58.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
-            <CheckBox fx:id="tempBit64" layoutX="74.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
-            <CheckBox fx:id="tempBit32" layoutX="90.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
-            <CheckBox fx:id="tempBit16" layoutX="106.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
-            <CheckBox fx:id="tempBit8" layoutX="122.0" layoutY="12.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
-            <CheckBox fx:id="tempBit4" layoutX="138.0" layoutY="12.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
-            <CheckBox fx:id="tempBit2" layoutX="138.0" layoutY="12.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
-            <CheckBox fx:id="tempBit1" layoutX="170.0" layoutY="10.0" mnemonicParsing="false" styleClass="bit" stylesheets="@Styles/style.css" />
+            <ToggleButton fx:id="adr4" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="4">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="adr3" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="3">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="adr2" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="2">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="adr1" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="1">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="adr0" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="0">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
          </children>
          <opaqueInsets>
-            <Insets left="5.0" right="5.0" />
+            <Insets bottom="15.0" left="12.0" right="12.0" top="15.0" />
          </opaqueInsets>
       </HBox>
-      <Label layoutX="14.0" layoutY="48.0" text="Example Register">
+      <HBox alignment="TOP_RIGHT" layoutX="481.0" layoutY="629.0" prefHeight="47.0" prefWidth="52.0" spacing="5.0">
+         <children>
+            <ToggleButton fx:id="i5" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="5">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="15.0" left="12.0" right="12.0" top="15.0" />
+         </opaqueInsets>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" layoutX="371.0" layoutY="629.0" prefHeight="47.0" prefWidth="91.0" spacing="5.0">
+         <children>
+            <ToggleButton fx:id="ixr7" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="7">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="ixr6" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="6">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="15.0" left="12.0" right="12.0" top="15.0" />
+         </opaqueInsets>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" layoutX="261.0" layoutY="629.0" prefHeight="47.0" prefWidth="91.0" spacing="5.0">
+         <children>
+            <ToggleButton fx:id="gpr9" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="9">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="gpr8" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="8">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="15.0" left="12.0" right="12.0" top="15.0" />
+         </opaqueInsets>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" layoutX="1.0" layoutY="629.0" prefHeight="47.0" prefWidth="236.0" spacing="5.0">
+         <children>
+            <ToggleButton fx:id="ctlF" layoutX="76.0" layoutY="10.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="F">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="ctlE" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="E">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="ctlD" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="D">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="ctlC" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="C">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="ctlB" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="B">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="ctlA" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="A">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="15.0" left="12.0" right="12.0" top="15.0" />
+         </opaqueInsets>
+      </HBox>
+      <Label layoutX="92.0" layoutY="686.0" text="Control">
          <font>
-            <Font size="14.0" />
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="296.0" layoutY="686.0" text="GPR">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="410.0" layoutY="686.0" text="IXR">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="513.0" layoutY="686.0" text="I">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="618.0" layoutY="686.0" text="Address">
+         <font>
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
    </children>

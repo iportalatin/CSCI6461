@@ -19,8 +19,8 @@ public class ComputerSimulation extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ComputerSimulation.class.getResource("Simulator-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 720, 480);
-        stage.setTitle("Computer Simulation (xx-bit)");
+        Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
+        stage.setTitle("Computer Simulation (16-bit)");
         stage.setScene(scene);
         stage.show();
     }
