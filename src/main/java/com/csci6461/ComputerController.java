@@ -28,12 +28,21 @@ public class ComputerController {
     @FXML
     private CheckBox pc1,pc2,pc4,pc8,pc16,pc32,pc64,pc128,pc256,pc512,pc1024,pc2048;
 
+    @FXML
+    private CheckBox mar1,mar2,mar4,mar8,mar16,mar32,mar64,mar128,mar256,mar512,mar1024,mar2048;
+
+    @FXML
+    private CheckBox mbr1,mbr2,mbr4,mbr8,mbr16,mbr32,mbr64,mbr128,mbr256,mbr512,mbr1024,mbr2048,mbr4096,
+            mbr8192,mbr16384,mbr32768;
+
     ToggleButton[] bitController;
 
     CheckBox[] pcController;
+    CheckBox[] marController;
+    CheckBox[] mbrController;
 
     /**
-     * Handels loading of bits for the program counter.
+     * Handles loading of bits for the program counter.
      */
     @FXML
     protected void onPCLoadClick() {
@@ -42,6 +51,31 @@ public class ComputerController {
         }
 
         translateBits(pcController);
+    }
+
+    /**
+     * Handles loading of bits for the MAR.
+     */
+    @FXML
+    protected void onMARLoadClick() {
+        if (marController == null){
+            marController = new CheckBox[]{mar1,mar2,mar4,mar8,mar16,mar32,mar64,mar128,mar256,mar512,mar1024,mar2048};
+        }
+
+        translateBits(marController);
+    }
+
+    /**
+     * Handles loading of bits for the MBR.
+     */
+    @FXML
+    protected void onMBRLoadClick() {
+        if (mbrController == null){
+            mbrController = new CheckBox[]{mbr1,mbr2,mbr4,mbr8,mbr16,mbr32,mbr64,mbr128,mbr256,mbr512,mbr1024,mbr2048,
+                    mbr4096,mbr8192,mbr16384,mbr32768};
+        }
+
+        translateBits(mbrController);
     }
 
 
