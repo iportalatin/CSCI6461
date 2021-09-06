@@ -1,4 +1,4 @@
-/**
+/*
  * This file implements the Control Unit (CU) class for the CSCI 6461 project.
  */
 package com.csci6461;
@@ -55,7 +55,8 @@ public class ControlUnit {
         /**
          * Create Program Counter (PC) register
          */
-        pc = new Register("PC",16);
+
+        pc = new Register("PC",12);
         
         /**
          * Create main memory of appropriate size
