@@ -8,6 +8,8 @@
 package com.csci6461;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 
 /**
@@ -15,7 +17,7 @@ import java.util.Arrays;
  * @author imanuelportalatin
  */
 public class TestController {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("Starting test controller");
         
         /* Create new control unit */
@@ -58,6 +60,27 @@ public class TestController {
             System.out.println("Execption while loading test word into pc...");
             ioe.printStackTrace();
         }
+        
+        /* Write a bunch of data to random locations in memory */
+        short[] testData = new short[]{ (short)0xAAAA, (short)0xffff };
+        int[] addresses = new int[100];
+        for (int i = 0; i < 100; i++) {
+            int r = (int)(Math.random() * 2048);
+            addresses[i] = Math.abs(r);
+            short word = testData[i%2];
+            System.out.printf("Writing word %d to address %d\n", word, addresses[i]);
+            
+            cu.load(addresses[i], word);
+        }
+        
+        /* Start the controller and display time before and after */
+        LocalTime now = LocalTime.now();
+        System.out.println("Starting CU at time:");
+        System.out.println(now);
+        cu.run();
+        now = LocalTime.now();
+        System.out.println("CU run stopped at time:");
+        System.out.println(now);
         
         System.out.println("Finishing test controller execution");
     }
