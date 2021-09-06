@@ -13,3 +13,13 @@
 
     -fx-background-color: #fce303;
 }
+
+/* Style for register bits */
+.reg-bit .box {
+    -fx-background-color: #818285;
+}
+
+.reg-bit:selected .box, .reg-bit:selected .mark{
+    -fx-background-color: #fce303;
+}
+

@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@Styles/style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csci6461.ComputerController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff49" height="67.0" layoutX="20.0" layoutY="619.0" stroke="TRANSPARENT" strokeType="INSIDE" width="228.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff49" height="67.0" layoutX="277.0" layoutY="619.0" stroke="TRANSPARENT" strokeType="INSIDE" width="85.0" />
@@ -153,5 +153,21 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="949.0" layoutY="29.0" prefHeight="35.0" prefWidth="258.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="pc2048" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc1024" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc512" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc256" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc128" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc64" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc32" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc16" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc8" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc4" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc2" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc1" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children></HBox>
+      <Button fx:id="btnPcLoad" layoutX="1216.0" layoutY="34.0" mnemonicParsing="false" onAction="#onPCLoadClick" text="Load" />
    </children>
 </Pane>
