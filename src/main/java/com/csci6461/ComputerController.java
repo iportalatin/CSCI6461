@@ -10,6 +10,11 @@ import javafx.scene.control.ToggleButton;
  */
 public class ComputerController {
 
+    /**
+     * Control unit for the system
+     */
+    private ControlUnit cu = new ControlUnit();
+
     @FXML
     private ToggleButton adr0, adr1, adr2, adr3, adr4;
 
@@ -48,15 +53,15 @@ public class ComputerController {
     private CheckBox gpr13,gpr23,gpr43,gpr83,gpr163,gpr323,gpr643,gpr1283,gpr2563,gpr5123,gpr10243,gpr20483,gpr40963,
             gpr81923,gpr163843,gpr327683;
 
-    ToggleButton[] bitController;
+    private ToggleButton[] bitController;
 
-    CheckBox[] pcController;
-    CheckBox[] marController;
-    CheckBox[] mbrController;
-    CheckBox[] gpr0Controller;
-    CheckBox[] gpr1Controller;
-    CheckBox[] gpr2Controller;
-    CheckBox[] gpr3Controller;
+    private CheckBox[] pcController;
+    private CheckBox[] marController;
+    private CheckBox[] mbrController;
+    private CheckBox[] gpr0Controller;
+    private CheckBox[] gpr1Controller;
+    private CheckBox[] gpr2Controller;
+    private CheckBox[] gpr3Controller;
 
     /**
      * Handles loading of bits for the program counter.

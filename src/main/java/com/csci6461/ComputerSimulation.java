@@ -8,7 +8,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * This class runs the main application as well as contains the UI
+ * This class runs the main application as well as contains the UI.
+ * @author Ellis Thompson
+ * @author imanuelportalatin
  */
 public class ComputerSimulation extends Application {
     /**
