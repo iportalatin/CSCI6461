@@ -74,7 +74,7 @@ public class Memory {
      * 
      * @param address An int with the address in memory to read
      * 
-     * @returns A 16-bit word with the data at the specified location in memory
+     * @return A 16-bit word with the data at the specified location in memory
      * 
      * @throws IOException If an invalid address is received
      */

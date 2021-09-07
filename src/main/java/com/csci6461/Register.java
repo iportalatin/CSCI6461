@@ -27,8 +27,8 @@ public class Register extends BitSet {
     /**
      * Default constructor initializes name and size
      * 
-     * @param name Name of the register being created
-     * @param size Register size in bits
+     * @param n Name of the register being created
+     * @param s Register size in bits
      */
     public Register(String n, int s) {
         super(s);
@@ -103,7 +103,7 @@ public class Register extends BitSet {
     /**
      * This methods gets the data stored in the register as a byte array
      * 
-     * @returns data stored in the register as a byte array
+     * @return data stored in the register as a byte array
      */
     public byte[] read() {
         return super.toByteArray();

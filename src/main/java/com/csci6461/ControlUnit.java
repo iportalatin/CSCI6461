@@ -94,6 +94,7 @@ public class ControlUnit {
      * Method to trigger program execution
      * NOTE: This currently waits for clock cycles. We still need 
      *       to implement program load and execute logic.
+     * @throws InterruptedException ADD HERE
      */
     public void run() throws InterruptedException {
         Continue = true;
