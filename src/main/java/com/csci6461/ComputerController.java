@@ -5,6 +5,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 
+import java.io.IOException;
+import java.util.BitSet;
+
 /**
  * Class for controlling elements of the UI
  */
@@ -123,8 +126,10 @@ public class ComputerController {
      * Handles loading of bits for the program counter.
      */
     @FXML
-    protected void onPCLoadClick() {
-        translateBits(pcController);
+    protected void onPCLoadClick() throws IOException {
+        byte[] byte_val = translateBits(pcController);
+
+        cu.pc.load(byte_val);
     }
 
     /**
@@ -206,11 +211,20 @@ public class ComputerController {
      * Gets the 16-bit array values and flips the bits before resetting the user selected bits.
         @param controller The checkbox controller
      */
-    private void translateBits(CheckBox[] controller) {
-       for(int i=0; i<controller.length; i++){
-           controller[i].setSelected(bitController[i].isSelected());
-           bitController[i].setSelected(false);
-       }
+    private byte[] translateBits(CheckBox[] controller) {
+        BitSet bits = new BitSet(controller.length);
+        for(int i=0; i<controller.length; i++){
+            boolean val = bitController[i].isSelected();
+            controller[i].setSelected(val);
+            bitController[i].setSelected(false);
+
+            if(val){
+                bits.set(i);
+            }
+        }
+
+        byte[] bytes = bits.toByteArray();
+        return bytes;
 
     }
 
