@@ -1,0 +1,25 @@
+/* Style for the bit lights
+    > First is default: OFF
+    > Second is: ON
+    */
+
+.bit {
+    -fx-padding: 2;
+    -fx-background-color: #818285;
+    -fx-text-fill: #000000;
+}
+
+.bit:selected {
+
+    -fx-background-color: #fce303;
+}
+
+/* Style for register bits */
+.reg-bit .box {
+    -fx-background-color: #818285;
+}
+
+.reg-bit:selected .box, .reg-bit:selected .mark{
+    -fx-background-color: #fce303;
+}
+

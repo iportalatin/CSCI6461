@@ -1,14 +1,444 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@Styles/style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csci6461.ComputerController">
    <children>
-      <Label layoutX="203.0" layoutY="219.0" text="THIS IS A PLACEHOLDER">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff49" height="67.0" layoutX="20.0" layoutY="619.0" stroke="TRANSPARENT" strokeType="INSIDE" width="228.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff49" height="67.0" layoutX="277.0" layoutY="619.0" stroke="TRANSPARENT" strokeType="INSIDE" width="85.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff49" height="67.0" layoutX="387.0" layoutY="619.0" stroke="TRANSPARENT" strokeType="INSIDE" width="85.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff49" height="67.0" layoutX="491.0" layoutY="619.0" stroke="TRANSPARENT" strokeType="INSIDE" width="52.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff49" height="67.0" layoutX="566.0" layoutY="619.0" stroke="TRANSPARENT" strokeType="INSIDE" width="194.0" />
+      <HBox alignment="TOP_RIGHT" layoutX="549.0" layoutY="629.0" prefHeight="47.0" prefWidth="200.0" spacing="5.0">
+         <children>
+            <ToggleButton fx:id="adr4" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="4">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="adr3" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="3">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="adr2" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="2">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="adr1" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="1">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="adr0" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="0">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="15.0" left="12.0" right="12.0" top="15.0" />
+         </opaqueInsets>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" layoutX="481.0" layoutY="629.0" prefHeight="47.0" prefWidth="52.0" spacing="5.0">
+         <children>
+            <ToggleButton fx:id="i5" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="5">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="15.0" left="12.0" right="12.0" top="15.0" />
+         </opaqueInsets>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" layoutX="371.0" layoutY="629.0" prefHeight="47.0" prefWidth="91.0" spacing="5.0">
+         <children>
+            <ToggleButton fx:id="ixr7" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="7">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="ixr6" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="6">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="15.0" left="12.0" right="12.0" top="15.0" />
+         </opaqueInsets>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" layoutX="261.0" layoutY="629.0" prefHeight="47.0" prefWidth="91.0" spacing="5.0">
+         <children>
+            <ToggleButton fx:id="gpr9" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="9">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="gpr8" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="8">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="15.0" left="12.0" right="12.0" top="15.0" />
+         </opaqueInsets>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" layoutX="1.0" layoutY="629.0" prefHeight="47.0" prefWidth="236.0" spacing="5.0">
+         <children>
+            <ToggleButton fx:id="ctlF" layoutX="76.0" layoutY="10.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="F">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="ctlE" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="E">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="ctlD" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="D">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="ctlC" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="C">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="ctlB" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="B">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton fx:id="ctlA" mnemonicParsing="false" prefHeight="44.0" prefWidth="30.0" styleClass="bit" stylesheets="@Styles/style.css" text="A">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </ToggleButton>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="15.0" left="12.0" right="12.0" top="15.0" />
+         </opaqueInsets>
+      </HBox>
+      <Label layoutX="92.0" layoutY="686.0" text="Control">
          <font>
-            <Font size="29.0" />
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="296.0" layoutY="686.0" text="GPR">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="410.0" layoutY="686.0" text="IXR">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="513.0" layoutY="686.0" text="I">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="618.0" layoutY="686.0" text="Address">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="949.0" layoutY="29.0" prefHeight="35.0" prefWidth="258.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="pc2048" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc1024" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc512" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc256" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc128" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc64" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc32" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc16" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc8" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc4" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc2" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="pc1" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children></HBox>
+      <Button fx:id="btnPcLoad" layoutX="1216.0" layoutY="34.0" mnemonicParsing="false" onAction="#onPCLoadClick" text="Load" />
+      <Label layoutX="932.0" layoutY="37.0" text="PC">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="949.0" layoutY="64.0" prefHeight="35.0" prefWidth="258.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="mar2048" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mar1024" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mar512" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mar256" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mar128" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mar64" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mar32" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mar16" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mar8" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mar4" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mar2" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mar1" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <Button fx:id="btnMARLoad" layoutX="1216.0" layoutY="69.0" mnemonicParsing="false" onAction="#onMARLoadClick" text="Load" />
+      <Label layoutX="918.0" layoutY="72.0" text="MAR">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="876.0" layoutY="99.0" prefHeight="35.0" prefWidth="307.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="mbr32768" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr16384" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr8192" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr4096" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr2048" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr1024" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr512" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr256" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr128" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr64" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr32" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr16" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr8" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr4" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr2" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mbr1" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <Button fx:id="btnMBRLoad" layoutX="1216.0" layoutY="104.0" mnemonicParsing="false" onAction="#onMBRLoadClick" text="Load" />
+      <Label layoutX="836.0" layoutY="107.0" text="MBR">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="72.0" layoutY="29.0" prefHeight="35.0" prefWidth="307.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="gpr327680" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr163840" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr81920" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr40960" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr20480" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr10240" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr5120" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr2560" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr1280" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr640" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr320" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr160" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr80" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr40" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr20" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr10" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <Label layoutX="20.0" layoutY="37.0" text="GPR 0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnGPR0Load" layoutX="409.0" layoutY="34.0" mnemonicParsing="false" onAction="#onGPR0LoadClick" text="Load" />
+      <Label layoutX="20.0" layoutY="72.0" text="GPR 1">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="20.0" layoutY="107.0" text="GPR 2">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="20.0" layoutY="142.0" text="GPR 3">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="72.0" layoutY="65.0" prefHeight="35.0" prefWidth="307.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="gpr327681" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr163841" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr81921" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr40961" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr20481" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr10241" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr5121" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr2561" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr1281" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr641" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr321" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr161" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr81" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr41" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr21" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr11" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" layoutX="72.0" layoutY="100.0" prefHeight="35.0" prefWidth="307.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="gpr327682" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr163842" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr81922" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr40962" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr20482" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr10242" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr5122" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr2562" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr1282" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr642" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr322" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr162" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr82" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr42" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr22" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr12" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" layoutX="72.0" layoutY="134.0" prefHeight="35.0" prefWidth="307.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="gpr327683" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr163843" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr81923" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr40963" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr20483" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr10243" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr5123" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr2563" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr1283" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr643" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr323" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr163" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr83" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr43" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr23" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="gpr13" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <Button fx:id="btnGPR1Load" layoutX="409.0" layoutY="70.0" mnemonicParsing="false" onAction="#onGPR1LoadClick" text="Load" />
+      <Button fx:id="btnGPR2Load" layoutX="409.0" layoutY="105.0" mnemonicParsing="false" onAction="#onGPR2LoadClick" text="Load" />
+      <Button fx:id="btnGPR3Load" layoutX="409.0" layoutY="140.0" mnemonicParsing="false" onAction="#onGPR3LoadClick" text="Load" />
+      <HBox alignment="CENTER_RIGHT" layoutX="72.0" layoutY="187.0" prefHeight="35.0" prefWidth="307.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="ixr0_16" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_15" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_14" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_13" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_12" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_11" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_10" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_9" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_8" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_7" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_6" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_5" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_4" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_3" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_2" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_1" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <Label layoutX="22.0" layoutY="195.0" text="IXR 0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnIXR0Load" layoutX="409.0" layoutY="193.0" mnemonicParsing="false" onAction="#onIXR0LoadClick" text="Load" />
+      <HBox alignment="CENTER_RIGHT" layoutX="72.0" layoutY="216.0" prefHeight="35.0" prefWidth="307.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="ixr1_16" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_15" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_14" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_13" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_12" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_11" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_10" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_9" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_8" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_7" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_6" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_5" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_4" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_3" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_2" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_1" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <Label layoutX="22.0" layoutY="224.0" text="IXR 1">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="252.0" text="IXR 2">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="72.0" layoutY="244.0" prefHeight="35.0" prefWidth="307.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="ixr2_16" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_15" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_14" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_13" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_12" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_11" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_10" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_9" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_8" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_7" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_6" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_5" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_4" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_3" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_2" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_1" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <Button fx:id="btnIXR1Load" layoutX="409.0" layoutY="222.0" mnemonicParsing="false" onAction="#onIXR1LoadClick" text="Load" />
+      <Button fx:id="btnIXR2Load" layoutX="409.0" layoutY="249.0" mnemonicParsing="false" onAction="#onIXR2LoadClick" text="Load" />
+      <HBox alignment="CENTER_RIGHT" layoutX="862.0" layoutY="135.0" prefHeight="35.0" prefWidth="345.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="ir_16" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_15" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_14" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_13" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_12" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_11" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_10" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_9" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_8" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_7" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_6" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_5" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_4" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_3" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_2" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ir_1" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <Label layoutX="836.0" layoutY="143.0" text="IR">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="1128.0" layoutY="170.0" prefHeight="35.0" prefWidth="77.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="mfr_8" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mfr_4" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mfr_2" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" prefWidth="8.0" styleClass="reg-bit" />
+            <CheckBox fx:id="mfr_1" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <Label layoutX="1088.0" layoutY="178.0" text="MFR">
+         <font>
+            <Font name="System Bold" size="14.0" />
          </font>
       </Label>
    </children>
