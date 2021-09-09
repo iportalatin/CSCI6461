@@ -53,6 +53,16 @@ public class ComputerController {
     private CheckBox gpr13,gpr23,gpr43,gpr83,gpr163,gpr323,gpr643,gpr1283,gpr2563,gpr5123,gpr10243,gpr20483,gpr40963,
             gpr81923,gpr163843,gpr327683;
 
+    @FXML
+    private CheckBox ixr0_1, ixr0_2, ixr0_3, ixr0_4, ixr0_5,ixr0_6,ixr0_7,ixr0_8,ixr0_9,ixr0_10,ixr0_11,ixr0_12,
+            ixr0_13,ixr0_14,ixr0_15,ixr0_16;
+    @FXML
+    private CheckBox ixr1_1, ixr1_2, ixr1_3, ixr1_4, ixr1_5,ixr1_6,ixr1_7,ixr1_8,ixr1_9,ixr1_10,ixr1_11,ixr1_12,
+            ixr1_13,ixr1_14,ixr1_15,ixr1_16;
+    @FXML
+    private CheckBox ixr2_1, ixr2_2, ixr2_3, ixr2_4, ixr2_5,ixr2_6,ixr2_7,ixr2_8,ixr2_9,ixr2_10,ixr2_11,ixr2_12,
+            ixr2_13,ixr2_14,ixr2_15,ixr2_16;
+
     private ToggleButton[] bitController;
 
     private CheckBox[] pcController;
@@ -62,6 +72,9 @@ public class ComputerController {
     private CheckBox[] gpr1Controller;
     private CheckBox[] gpr2Controller;
     private CheckBox[] gpr3Controller;
+    private CheckBox[] ixr0Controller;
+    private CheckBox[] ixr1Controller;
+    private CheckBox[] ixr2Controller;
 
     @FXML
     private void initialize() {
@@ -81,6 +94,13 @@ public class ComputerController {
                 gpr10242,gpr20482,gpr40962, gpr81922,gpr163842,gpr327682};
         gpr3Controller = new CheckBox[]{gpr13,gpr23,gpr43,gpr83,gpr163,gpr323,gpr643,gpr1283,gpr2563,
                 gpr5123,gpr10243,gpr20483,gpr40963, gpr81923,gpr163843,gpr327683};
+
+        ixr0Controller = new CheckBox[]{ixr0_1, ixr0_2, ixr0_3, ixr0_4, ixr0_5,ixr0_6,ixr0_7,ixr0_8,ixr0_9,ixr0_10,ixr0_11,ixr0_12,
+                ixr0_13,ixr0_14,ixr0_15,ixr0_16};
+        ixr1Controller = new CheckBox[]{ixr1_1, ixr1_2, ixr1_3, ixr1_4, ixr1_5,ixr1_6,ixr1_7,ixr1_8,ixr1_9,ixr1_10,ixr1_11,ixr1_12,
+                ixr1_13,ixr1_14,ixr1_15,ixr1_16};
+        ixr2Controller = new CheckBox[]{ixr2_1, ixr2_2, ixr2_3, ixr2_4, ixr2_5,ixr2_6,ixr2_7,ixr2_8,ixr2_9,ixr2_10,ixr2_11,ixr2_12,
+                ixr2_13,ixr2_14,ixr2_15,ixr2_16};
 
     }
 
@@ -140,6 +160,31 @@ public class ComputerController {
     protected void onGPR3LoadClick() {
         translateBits(gpr3Controller);
     }
+
+    /**
+     * Handles loading of bits for the IXR0.
+     */
+    @FXML
+    protected void onIXR0LoadClick() {
+        translateBits(ixr0Controller);
+    }
+
+    /**
+     * Handles loading of bits for the IXR0.
+     */
+    @FXML
+    protected void onIXR1LoadClick() {
+        translateBits(ixr1Controller);
+    }
+
+    /**
+     * Handles loading of bits for the IXR0.
+     */
+    @FXML
+    protected void onIXR2LoadClick() {
+        translateBits(ixr2Controller);
+    }
+
 
 
     /**
