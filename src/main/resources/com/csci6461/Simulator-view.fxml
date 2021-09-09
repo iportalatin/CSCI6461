@@ -325,5 +325,83 @@
       <Button fx:id="btnGPR1Load" layoutX="409.0" layoutY="70.0" mnemonicParsing="false" onAction="#onGPR1LoadClick" text="Load" />
       <Button fx:id="btnGPR2Load" layoutX="409.0" layoutY="105.0" mnemonicParsing="false" onAction="#onGPR2LoadClick" text="Load" />
       <Button fx:id="btnGPR3Load" layoutX="409.0" layoutY="140.0" mnemonicParsing="false" onAction="#onGPR3LoadClick" text="Load" />
+      <HBox alignment="CENTER_RIGHT" layoutX="72.0" layoutY="187.0" prefHeight="35.0" prefWidth="307.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="ixr0_16" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_15" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_14" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_13" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_12" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_11" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_10" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_9" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_8" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_7" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_6" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_5" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_4" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_3" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_2" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr0_1" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <Label layoutX="22.0" layoutY="195.0" text="IXR 0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnIXR0Load" layoutX="409.0" layoutY="193.0" mnemonicParsing="false" onAction="#onIXR0LoadClick" text="Load" />
+      <HBox alignment="CENTER_RIGHT" layoutX="72.0" layoutY="216.0" prefHeight="35.0" prefWidth="307.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="ixr1_16" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_15" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_14" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_13" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_12" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_11" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_10" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_9" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_8" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_7" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_6" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_5" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_4" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_3" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_2" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr1_1" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <Label layoutX="22.0" layoutY="224.0" text="IXR 1">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="252.0" text="IXR 2">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="72.0" layoutY="244.0" prefHeight="35.0" prefWidth="307.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="ixr2_16" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_15" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_14" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_13" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_12" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_11" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_10" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_9" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_8" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_7" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_6" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_5" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_4" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_3" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_2" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="ixr2_1" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
+      <Button fx:id="btnIXR1Load" layoutX="409.0" layoutY="222.0" mnemonicParsing="false" onAction="#onIXR1LoadClick" text="Load" />
+      <Button fx:id="btnIXR2Load" layoutX="409.0" layoutY="249.0" mnemonicParsing="false" onAction="#onIXR2LoadClick" text="Load" />
    </children>
 </Pane>
