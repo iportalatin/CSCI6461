@@ -108,4 +108,33 @@ public class Register extends BitSet {
     public byte[] read() {
         return super.toByteArray();
     }
+
+    /**
+     * This methods gets an array of ints with the position of the
+     * bits currently set in the register
+     *
+     * @return array of ints with position of bits set in register
+     */
+    public int[] getSetBits() {
+
+        /* Get string representation of bit set */
+        String bits = super.toString();
+        System.out.printf("[Register::getSetBits] Have string representation from parent: %s\n", bits);
+
+        /* Split string */
+        String[] splitBits = bits.split("[,{}]");
+        System.out.printf("[Register::getSetBots] Result of split bits string: %s\n", Arrays.toString(splitBits));
+
+        /* Convert array of Strings from split into array of ints */
+        /**
+         * NOTE: Splitting on the regex above seems to remove the initial curly brace but
+         *       returns an empty first element. Assuming we can just throw away first element.
+         */
+        int[] output = new int [splitBits.length - 1];
+        for (int i = 0; i < splitBits.length - 1; i++) {
+            output[i] = Integer.parseInt(splitBits[i+1].trim());
+        }
+
+        return output;
+    }
 }
