@@ -63,10 +63,11 @@ public class Memory {
                 address, size);
             throw new IOException(error);
         }
+        data[address] = word;
         /* Save input word into slot corresponding to the specified address */
         System.out.printf("[Memory::write] Writing value %d to memory address %d\n", 
                 word, address);
-        data[address] = word;
+
     }
     
     /**

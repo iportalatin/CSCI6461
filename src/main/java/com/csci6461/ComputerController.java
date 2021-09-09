@@ -2,11 +2,16 @@ package com.csci6461;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.BitSet;
+import java.util.Scanner;
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.math.BigInteger;
 
 /**
  * Class for controlling elements of the UI.
@@ -233,6 +238,46 @@ public class ComputerController {
         // Return the byte array
         return bits.toByteArray();
 
+    }
+
+    /**
+     * Allows the user to select a file and then load that file into memory.
+     * @throws IOException
+     */
+    @FXML
+    protected void onLoadFileClick() {
+        JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        fc.showOpenDialog(null);
+        String file_path = fc.getSelectedFile().getAbsolutePath();
+
+        try {
+            File thisFile = new File(file_path);
+            Scanner reader = new Scanner(thisFile);
+
+            while (reader.hasNextLine()) {
+
+                String[] data = reader.nextLine().split(" ",2);
+                short memory = toByteArray(data[0]);
+                short value = toByteArray(data[1]);
+
+                cu.load(memory,value);
+            }
+        } catch (FileNotFoundException e){
+            System.out.println("ERROR: File not found!");
+        }
+    }
+
+    private short toByteArray(String s) {
+        short it = (short) Integer.parseInt(s, 16);
+        System.out.println("Hexadecimal String " + s);
+//        BigInteger bigInt = BigInteger.valueOf(it);
+//        byte[] bytearray = (bigInt.toByteArray());
+//        System.out.print("Byte Array : ");
+//        for(int i = 0; i < bytearray.length; i++) {
+//            System.out.print(bytearray[i] + "\t");
+//        }
+//        System.out.print("\n short val: "+it);
+        return it;
     }
 
 }
