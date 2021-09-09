@@ -64,6 +64,9 @@ public class ComputerController {
             ixr2_13,ixr2_14,ixr2_15,ixr2_16;
 
     @FXML
+    private CheckBox mfr_1,mfr_2,mfr_4,mfr_8;
+
+    @FXML
     private CheckBox ir_1,ir_2,ir_3,ir_4,ir_5,ir_6,ir_7,ir_8,ir_9,ir_10,ir_11,ir_12,ir_13,ir_14,ir_15,ir_16;
 
     private ToggleButton[] bitController;
@@ -79,6 +82,7 @@ public class ComputerController {
     private CheckBox[] ixr1Controller;
     private CheckBox[] ixr2Controller;
     private CheckBox[] irController;
+    private CheckBox[] mfrController;
 
     @FXML
     private void initialize() {
@@ -111,6 +115,7 @@ public class ComputerController {
 
         irController = new CheckBox[]{ir_1,ir_2,ir_3,ir_4,ir_5,ir_6,ir_7,ir_8,ir_9,ir_10,ir_11,ir_12,ir_13,ir_14,
                 ir_15,ir_16};
+        mfrController = new CheckBox[]{mfr_1,mfr_2,mfr_4,mfr_8};
 
     }
 

@@ -403,7 +403,7 @@
       </HBox>
       <Button fx:id="btnIXR1Load" layoutX="409.0" layoutY="222.0" mnemonicParsing="false" onAction="#onIXR1LoadClick" text="Load" />
       <Button fx:id="btnIXR2Load" layoutX="409.0" layoutY="249.0" mnemonicParsing="false" onAction="#onIXR2LoadClick" text="Load" />
-      <HBox alignment="CENTER_RIGHT" layoutX="876.0" layoutY="135.0" prefHeight="35.0" prefWidth="307.0" spacing="5.0">
+      <HBox alignment="CENTER_RIGHT" layoutX="862.0" layoutY="135.0" prefHeight="35.0" prefWidth="345.0" spacing="5.0">
          <children>
             <CheckBox fx:id="ir_16" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
             <CheckBox fx:id="ir_15" disable="true" layoutX="252.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
@@ -428,5 +428,13 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="1128.0" layoutY="170.0" prefHeight="35.0" prefWidth="77.0" spacing="5.0">
+         <children>
+            <CheckBox fx:id="mfr_8" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mfr_4" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+            <CheckBox fx:id="mfr_2" disable="true" layoutX="301.0" layoutY="19.0" mnemonicParsing="false" prefWidth="8.0" styleClass="reg-bit" />
+            <CheckBox fx:id="mfr_1" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
+         </children>
+      </HBox>
    </children>
 </Pane>
