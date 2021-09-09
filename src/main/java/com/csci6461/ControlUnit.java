@@ -15,21 +15,34 @@ import java.io.IOException;
  */
 public class ControlUnit {
     /**
-     * Initialize static variable with size of main memory
-     * NOTE: This should probably eventually come from some config file 
-     *       that is loaded at execution
+     * Initialize static configuration variables
+     * NOTE: This should probably eventually come from some config file
+     * that is loaded at execution
      */
-    private static final int MEMORY_SIZE = 2048;
-    
-    /** Initialize timeout period in ms
-     * NOTE: This should probably eventually come from some config file 
-     *       that is loaded at execution
-     */
-    private static final long CLOCK_TIMEOUT = 1000;
+    private static final int MEMORY_SIZE = 2048;     /* Size of main memory */
+    private static final long CLOCK_TIMEOUT = 1000;  /* Clock timeout period */
+    private static final int NUMBER_OF_GPR = 4;      /* Number of general purpose registers */
+
     /**
      * Parameter to hold the Program Counter (PC) register
      */
     public Register pc;
+
+    /**
+     * Parameter to hold the General Purpose Registers (GPR)
+     */
+    public Register[] gpr;
+
+    /**
+     * Parameter to hold the Memory Address Register (MAR)
+     */
+    public Register mar;
+
+    /**
+     * Parameter to hold the Memory Buffer Register (MBR)
+     */
+    public Register mbr;
+
     /**
      * Parameter to hold the computer's main memory
      * NOTE: Setting to private for now since I don't think memory needs to 
@@ -57,6 +70,25 @@ public class ControlUnit {
          */
 
         pc = new Register("PC",12);
+
+        /**
+         * Create appropriate number of General Purpose Registers (GPR)
+         */
+        gpr = new Register[NUMBER_OF_GPR];
+        for (int i = 0; i < NUMBER_OF_GPR; i++) {
+            String name = String.format("GPR%d", i);
+            gpr[i] = new Register(name, 16);
+        }
+
+        /**
+         * Create Memory Address Register (MAR)
+         */
+        mar = new Register("MAR",12);
+
+        /**
+         * Create Memory Buffer Register (MBR)
+         */
+        mbr = new Register("MBR",16);
         
         /**
          * Create main memory of appropriate size
@@ -108,5 +140,13 @@ public class ControlUnit {
                 Continue = false;
             }
         }
+    }
+
+    /**
+     * Method to execute single step by getting the next instruction in
+     * memory, decoding it and executing it
+     */
+    public void singleStep() throws IOException {
+        /* To do */
     }
 }
