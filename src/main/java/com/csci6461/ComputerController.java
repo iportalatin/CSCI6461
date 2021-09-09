@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.util.BitSet;
 
 /**
- * Class for controlling elements of the UI
+ * Class for controlling elements of the UI.
+ * @author Ellis Thompson
  */
 public class ComputerController {
 
@@ -87,6 +88,7 @@ public class ComputerController {
     private CheckBox[] irController;
     private CheckBox[] mfrController;
 
+
     @FXML
     private void initialize() {
         bitController = new ToggleButton[]{adr0, adr1, adr2, adr3, adr4, i5, ixr6, ixr7, gpr8, gpr9, ctlA, ctlB,
@@ -127,9 +129,9 @@ public class ComputerController {
      */
     @FXML
     protected void onPCLoadClick() throws IOException {
-        byte[] byte_val = translateBits(pcController);
 
-        cu.pc.load(byte_val);
+        // Load the byte array into the controller and set UI bits
+        cu.pc.load(translateBits(pcController));
     }
 
     /**
@@ -210,21 +212,26 @@ public class ComputerController {
     /**
      * Gets the 16-bit array values and flips the bits before resetting the user selected bits.
         @param controller The checkbox controller
+        @return A byte array
      */
     private byte[] translateBits(CheckBox[] controller) {
+        // Create a new bit set to track positions of 'on' bits
         BitSet bits = new BitSet(controller.length);
-        for(int i=0; i<controller.length; i++){
+
+        // Loop through the controller setting matching bits and adding the correct bit to the controller, reset bit.
+        for(int i=0; i<controller.length; i++) {
             boolean val = bitController[i].isSelected();
             controller[i].setSelected(val);
             bitController[i].setSelected(false);
 
-            if(val){
+            // If bit is on add to bit set
+            if (val) {
                 bits.set(i);
             }
         }
 
-        byte[] bytes = bits.toByteArray();
-        return bytes;
+        // Return the byte array
+        return bits.toByteArray();
 
     }
 
