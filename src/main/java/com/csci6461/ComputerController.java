@@ -63,6 +63,9 @@ public class ComputerController {
     private CheckBox ixr2_1, ixr2_2, ixr2_3, ixr2_4, ixr2_5,ixr2_6,ixr2_7,ixr2_8,ixr2_9,ixr2_10,ixr2_11,ixr2_12,
             ixr2_13,ixr2_14,ixr2_15,ixr2_16;
 
+    @FXML
+    private CheckBox ir_1,ir_2,ir_3,ir_4,ir_5,ir_6,ir_7,ir_8,ir_9,ir_10,ir_11,ir_12,ir_13,ir_14,ir_15,ir_16;
+
     private ToggleButton[] bitController;
 
     private CheckBox[] pcController;
@@ -75,6 +78,7 @@ public class ComputerController {
     private CheckBox[] ixr0Controller;
     private CheckBox[] ixr1Controller;
     private CheckBox[] ixr2Controller;
+    private CheckBox[] irController;
 
     @FXML
     private void initialize() {
@@ -95,12 +99,18 @@ public class ComputerController {
         gpr3Controller = new CheckBox[]{gpr13,gpr23,gpr43,gpr83,gpr163,gpr323,gpr643,gpr1283,gpr2563,
                 gpr5123,gpr10243,gpr20483,gpr40963, gpr81923,gpr163843,gpr327683};
 
-        ixr0Controller = new CheckBox[]{ixr0_1, ixr0_2, ixr0_3, ixr0_4, ixr0_5,ixr0_6,ixr0_7,ixr0_8,ixr0_9,ixr0_10,ixr0_11,ixr0_12,
+        ixr0Controller = new CheckBox[]{ixr0_1, ixr0_2, ixr0_3, ixr0_4, ixr0_5,ixr0_6,ixr0_7,ixr0_8,ixr0_9,ixr0_10,
+                ixr0_11,ixr0_12,
                 ixr0_13,ixr0_14,ixr0_15,ixr0_16};
-        ixr1Controller = new CheckBox[]{ixr1_1, ixr1_2, ixr1_3, ixr1_4, ixr1_5,ixr1_6,ixr1_7,ixr1_8,ixr1_9,ixr1_10,ixr1_11,ixr1_12,
+        ixr1Controller = new CheckBox[]{ixr1_1, ixr1_2, ixr1_3, ixr1_4, ixr1_5,ixr1_6,ixr1_7,ixr1_8,ixr1_9,ixr1_10,
+                ixr1_11,ixr1_12,
                 ixr1_13,ixr1_14,ixr1_15,ixr1_16};
-        ixr2Controller = new CheckBox[]{ixr2_1, ixr2_2, ixr2_3, ixr2_4, ixr2_5,ixr2_6,ixr2_7,ixr2_8,ixr2_9,ixr2_10,ixr2_11,ixr2_12,
+        ixr2Controller = new CheckBox[]{ixr2_1, ixr2_2, ixr2_3, ixr2_4, ixr2_5,ixr2_6,ixr2_7,ixr2_8,ixr2_9,ixr2_10,
+                ixr2_11,ixr2_12,
                 ixr2_13,ixr2_14,ixr2_15,ixr2_16};
+
+        irController = new CheckBox[]{ir_1,ir_2,ir_3,ir_4,ir_5,ir_6,ir_7,ir_8,ir_9,ir_10,ir_11,ir_12,ir_13,ir_14,
+                ir_15,ir_16};
 
     }
 
