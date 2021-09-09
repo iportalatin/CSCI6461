@@ -267,6 +267,11 @@ public class ComputerController {
         }
     }
 
+    @FXML
+    protected void onPrtMemClick(){
+        cu.printMem();
+    }
+
     private short toByteArray(String s) {
         short it = (short) Integer.parseInt(s, 16);
         System.out.println("Hexadecimal String " + s);

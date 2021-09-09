@@ -442,5 +442,6 @@
          </font>
       </Label>
       <Button fx:id="btnLoadFile" layoutX="797.0" layoutY="619.0" mnemonicParsing="false" onAction="#onLoadFileClick" prefHeight="35.0" prefWidth="65.0" text="Load File" />
+      <Button fx:id="btnPrtMem" layoutX="798.0" layoutY="664.0" mnemonicParsing="false" onAction="#onPrtMemClick" prefHeight="25.0" prefWidth="65.0" text="Prt Mem" />
    </children>
 </Pane>

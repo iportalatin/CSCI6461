@@ -89,4 +89,44 @@ public class Memory {
         /* Return data at specified location */
         return(data[address]);
     }
+
+    /**
+     * A method for printing the populated memory dump to the console
+     */
+    public void printMemory() {
+        // |-------------|-------------|
+        // |   ADDRESS   |    VALUE    |
+        // |-------------|-------------|
+        System.out.println("\n\n         MEMORY DUMP         ");
+        System.out.println("|-------------|-------------|");
+        System.out.println("|   ADDRESS   |    VALUE    |");
+        System.out.println("|-------------|-------------|");
+
+        for (int i=0; i<data.length;i++){
+            if (data[i]!=0){
+                String pos = "0x"+formatHex(Integer.toHexString(i & 0xffff)).toUpperCase();
+                String val = "0x"+formatHex(Integer.toHexString(data[i] & 0xffff)).toUpperCase();
+
+                System.out.println("|   "+pos+"    |   "+val+"    |");
+            }
+        }
+        System.out.println("|-------------|-------------|");
+
+    }
+
+    /**
+     * Formats the string to look like a standard 2 byte hex
+     * @param s The unformatted string
+     * @return Returns the formatted string
+     */
+    private String formatHex(String s) {
+        String newS = s;
+        if (s.length() < 4) {
+            for (int i = 0; i < 4 - s.length(); i++){
+                newS = "0"+newS;
+            }
+        }
+        return  newS;
+    }
+
 }

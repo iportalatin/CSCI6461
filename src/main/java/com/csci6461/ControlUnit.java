@@ -164,4 +164,8 @@ public class ControlUnit {
     public void singleStep() throws IOException {
         /* To do */
     }
+
+    public void printMem(){
+        mainMemory.printMemory();
+    }
 }
