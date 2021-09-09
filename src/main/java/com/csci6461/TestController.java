@@ -93,27 +93,58 @@ public class TestController {
                 Integer.toBinaryString(result[1]),
                 Integer.toBinaryString(result[0]));
 
+        /* Test setting bits in register */
+        System.out.println("Setting bits on pc...");
+        int[] ones = new int[]{1,3,5,7,9,11};
+        try {
+            cu.pc.setBits(ones);
+        } catch (IOException ioe) {
+            System.out.println("Exception while setting bits on pc...");
+            ioe.printStackTrace();
+        }
+
+        /* Read pc after setting bits */
+        outValue = cu.pc.read();
+
+        result[0] = outValue[0] & 0xff;
+        result[1] = outValue[1] & 0xff;
+        System.out.printf("Read data from pc: %s %s\n",
+                Integer.toBinaryString(result[1]),
+                Integer.toBinaryString(result[0]));
+
 //        /* Test overflow protection on the pc register */
 //        value[2] = (byte) 0x01;
 //
 //        try {
 //            cu.pc.load(value);
 //        } catch (IOException ioe) {
-//            System.out.println("Execption while loading test word into pc...");
+//            System.out.println("Exception while loading test word into pc...");
 //            ioe.printStackTrace();
 //        }
 
-        /* Write a bunch of data to random locations in memory */
-        short[] testData = new short[]{(short) 0xAAAA, (short) 0xffff};
-        int[] addresses = new int[100];
-        for (int i = 0; i < 100; i++) {
-            int r = (int) (Math.random() * 2048);
-            addresses[i] = Math.abs(r);
-            short word = testData[i % 2];
-//            System.out.printf("Writing word %d to address %d\n", word, addresses[i]);
+        /* Test overflow protection when setting bits */
+        ones = Arrays.copyOf(ones, ones.length + 1);
+        ones[ones.length - 1] = 12;
 
-            cu.load(addresses[i], word);
+        System.out.println("Setting overflow bits on pc...");
+        try {
+            cu.pc.setBits(ones);
+        } catch (IOException ioe) {
+            System.out.println("Exception while setting bits on pc...");
+            ioe.printStackTrace();
         }
+
+        /* Write a bunch of data to random locations in memory */
+//        short[] testData = new short[]{(short) 0xAAAA, (short) 0xffff};
+//        int[] addresses = new int[100];
+//        for (int i = 0; i < 100; i++) {
+//            int r = (int) (Math.random() * 2048);
+//            addresses[i] = Math.abs(r);
+//            short word = testData[i % 2];
+////            System.out.printf("Writing word %d to address %d\n", word, addresses[i]);
+//
+//            cu.load(addresses[i], word);
+//        }
 
         /* Start the controller and display time before and after */
 //        LocalTime now = LocalTime.now();
