@@ -22,6 +22,7 @@ public class ControlUnit {
     private static final int MEMORY_SIZE = 2048;     /* Size of main memory */
     private static final long CLOCK_TIMEOUT = 1000;  /* Clock timeout period */
     private static final int NUMBER_OF_GPR = 4;      /* Number of general purpose registers */
+    private static final int NUMBER_OF_IXR = 3;      /* Number of general purpose registers */
 
     /**
      * Parameter to hold the Program Counter (PC) register
@@ -32,6 +33,11 @@ public class ControlUnit {
      * Parameter to hold the General Purpose Registers (GPR)
      */
     public Register[] gpr;
+
+    /**
+     * Parameter to hold the IX Registers (IXR)
+     */
+    public Register[] ixr;
 
     /**
      * Parameter to hold the Memory Address Register (MAR)
@@ -78,6 +84,15 @@ public class ControlUnit {
         for (int i = 0; i < NUMBER_OF_GPR; i++) {
             String name = String.format("GPR%d", i);
             gpr[i] = new Register(name, 16);
+        }
+
+        /**
+         * Create appropriate number of IX Registers (IXR)
+         */
+        ixr = new Register[NUMBER_OF_IXR];
+        for (int i = 0; i < NUMBER_OF_IXR; i++) {
+            String name = String.format("IXR%d", i);
+            ixr[i] = new Register(name, 16);
         }
 
         /**

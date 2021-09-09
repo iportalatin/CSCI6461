@@ -436,5 +436,10 @@
             <CheckBox fx:id="mfr_1" disable="true" layoutX="283.0" layoutY="19.0" mnemonicParsing="false" styleClass="reg-bit" />
          </children>
       </HBox>
+      <Label layoutX="1088.0" layoutY="178.0" text="MFR">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

@@ -138,73 +138,73 @@ public class ComputerController {
      * Handles loading of bits for the MAR.
      */
     @FXML
-    protected void onMARLoadClick() {
-        translateBits(marController);
+    protected void onMARLoadClick() throws IOException{
+        cu.mar.load(translateBits(marController));
     }
 
     /**
      * Handles loading of bits for the MBR.
      */
     @FXML
-    protected void onMBRLoadClick() {
-        translateBits(mbrController);
+    protected void onMBRLoadClick() throws IOException{
+        cu.mbr.load(translateBits(mbrController));
     }
 
     /**
      * Handles loading of bits for the GPR0.
      */
     @FXML
-    protected void onGPR0LoadClick() {
-        translateBits(gpr0Controller);
+    protected void onGPR0LoadClick() throws IOException{
+        cu.gpr[0].load(translateBits(gpr0Controller));
     }
 
     /**
      * Handles loading of bits for the GPR0.
      */
     @FXML
-    protected void onGPR1LoadClick() {
-        translateBits(gpr1Controller);
+    protected void onGPR1LoadClick() throws IOException{
+        cu.gpr[1].load(translateBits(gpr1Controller));
     }
 
     /**
      * Handles loading of bits for the GPR0.
      */
     @FXML
-    protected void onGPR2LoadClick() {
+    protected void onGPR2LoadClick() throws IOException{
 
-        translateBits(gpr2Controller);
+        cu.gpr[2].load(translateBits(gpr2Controller));
     }
 
     /**
      * Handles loading of bits for the GPR3.
      */
     @FXML
-    protected void onGPR3LoadClick() {
-        translateBits(gpr3Controller);
+    protected void onGPR3LoadClick() throws IOException{
+        cu.gpr[3].load(translateBits(gpr3Controller));
     }
 
     /**
      * Handles loading of bits for the IXR0.
      */
     @FXML
-    protected void onIXR0LoadClick() {
-        translateBits(ixr0Controller);
+    protected void onIXR0LoadClick() throws IOException{
+        cu.ixr[0].load(translateBits(ixr0Controller));
     }
 
     /**
      * Handles loading of bits for the IXR0.
      */
     @FXML
-    protected void onIXR1LoadClick() {
-        translateBits(ixr1Controller);
+    protected void onIXR1LoadClick() throws IOException{
+        cu.ixr[1].load(translateBits(ixr1Controller));
     }
 
     /**
      * Handles loading of bits for the IXR0.
      */
     @FXML
-    protected void onIXR2LoadClick() {
-        translateBits(ixr2Controller);
+    protected void onIXR2LoadClick() throws IOException{
+        cu.ixr[2].load(translateBits(ixr2Controller));
     }
 
 
