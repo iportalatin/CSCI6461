@@ -93,13 +93,44 @@ public class TestController {
                 Integer.toBinaryString(result[1]),
                 Integer.toBinaryString(result[0]));
 
+        /* Test setting bits in register */
+        System.out.println("Setting bits on pc...");
+        int[] ones = new int[]{1,3,5,7,9,11};
+        try {
+            cu.pc.setBits(ones);
+        } catch (IOException ioe) {
+            System.out.println("Exception while setting bits on pc...");
+            ioe.printStackTrace();
+        }
+
+        /* Read pc after setting bits */
+        outValue = cu.pc.read();
+
+        result[0] = outValue[0] & 0xff;
+        result[1] = outValue[1] & 0xff;
+        System.out.printf("Read data from pc: %s %s\n",
+                Integer.toBinaryString(result[1]),
+                Integer.toBinaryString(result[0]));
+
 //        /* Test overflow protection on the pc register */
 //        value[2] = (byte) 0x01;
 //
 //        try {
 //            cu.pc.load(value);
 //        } catch (IOException ioe) {
-//            System.out.println("Execption while loading test word into pc...");
+//            System.out.println("Exception while loading test word into pc...");
+//            ioe.printStackTrace();
+//        }
+
+        /* Test overflow protection when setting bits */
+//        ones = Arrays.copyOf(ones, ones.length + 1);
+//        ones[ones.length - 1] = 12;
+//
+//        System.out.println("Setting overflow bits on pc...");
+//        try {
+//            cu.pc.setBits(ones);
+//        } catch (IOException ioe) {
+//            System.out.println("Exception while setting bits on pc...");
 //            ioe.printStackTrace();
 //        }
 
@@ -113,6 +144,31 @@ public class TestController {
 //            System.out.printf("Writing word %d to address %d\n", word, addresses[i]);
 
             cu.load(addresses[i], word);
+        }
+
+        /* Put an instruction in memory and save address to PC */
+        short testInstruction = (short) 0xAAff;
+        byte[] testAddress = new byte[]{ 0x10, 0x04 };
+        result[0] = testAddress[1] & 0xff;
+        result[1] = testAddress[0] & 0xff;
+        System.out.printf("Test instruction set to: %s %s\n",
+                Integer.toBinaryString(result[0]),
+                Integer.toBinaryString(result[1]));
+
+        cu.load(1040, testInstruction);
+        try {
+            cu.pc.load(testAddress);
+        } catch (IOException ioe) {
+            System.out.println("Exception while loading test address into pc...");
+            ioe.printStackTrace();
+        }
+
+        /* Call singleStep on CU to execute test instruction */
+        try {
+            cu.singleStep();
+        } catch (IOException ioe) {
+            System.out.println("Exception during single step execution...");
+            ioe.printStackTrace();
         }
 
         /* Start the controller and display time before and after */
