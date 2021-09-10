@@ -123,28 +123,53 @@ public class TestController {
 //        }
 
         /* Test overflow protection when setting bits */
-        ones = Arrays.copyOf(ones, ones.length + 1);
-        ones[ones.length - 1] = 12;
+//        ones = Arrays.copyOf(ones, ones.length + 1);
+//        ones[ones.length - 1] = 12;
+//
+//        System.out.println("Setting overflow bits on pc...");
+//        try {
+//            cu.pc.setBits(ones);
+//        } catch (IOException ioe) {
+//            System.out.println("Exception while setting bits on pc...");
+//            ioe.printStackTrace();
+//        }
 
-        System.out.println("Setting overflow bits on pc...");
+        /* Write a bunch of data to random locations in memory */
+        short[] testData = new short[]{(short) 0xAAAA, (short) 0xffff};
+        int[] addresses = new int[100];
+        for (int i = 0; i < 100; i++) {
+            int r = (int) (Math.random() * 2048);
+            addresses[i] = Math.abs(r);
+            short word = testData[i % 2];
+//            System.out.printf("Writing word %d to address %d\n", word, addresses[i]);
+
+            cu.load(addresses[i], word);
+        }
+
+        /* Put an instruction in memory and save address to PC */
+        short testInstruction = (short) 0xAAff;
+        byte[] testAddress = new byte[]{ 0x10, 0x04 };
+        result[0] = testAddress[1] & 0xff;
+        result[1] = testAddress[0] & 0xff;
+        System.out.printf("Test instruction set to: %s %s\n",
+                Integer.toBinaryString(result[0]),
+                Integer.toBinaryString(result[1]));
+
+        cu.load(1040, testInstruction);
         try {
-            cu.pc.setBits(ones);
+            cu.pc.load(testAddress);
         } catch (IOException ioe) {
-            System.out.println("Exception while setting bits on pc...");
+            System.out.println("Exception while loading test address into pc...");
             ioe.printStackTrace();
         }
 
-        /* Write a bunch of data to random locations in memory */
-//        short[] testData = new short[]{(short) 0xAAAA, (short) 0xffff};
-//        int[] addresses = new int[100];
-//        for (int i = 0; i < 100; i++) {
-//            int r = (int) (Math.random() * 2048);
-//            addresses[i] = Math.abs(r);
-//            short word = testData[i % 2];
-////            System.out.printf("Writing word %d to address %d\n", word, addresses[i]);
-//
-//            cu.load(addresses[i], word);
-//        }
+        /* Call singleStep on CU to execute test instruction */
+        try {
+            cu.singleStep();
+        } catch (IOException ioe) {
+            System.out.println("Exception during single step execution...");
+            ioe.printStackTrace();
+        }
 
         /* Start the controller and display time before and after */
 //        LocalTime now = LocalTime.now();

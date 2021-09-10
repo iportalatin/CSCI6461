@@ -56,6 +56,12 @@ public class ControlUnit {
      *       first. We may have to change this as we build out the sim.
      */
     private Memory mainMemory;
+
+    /**
+     * Parameter to hold the computer's instruction decoder
+     */
+    private InstructionDecoder instructionDecoder;
+
     /**
      * Parameter to hold system clock
      */
@@ -114,7 +120,12 @@ public class ControlUnit {
             System.out.println("Execption while creating computer memory...");
             ioe.printStackTrace();
         }
-        
+
+        /**
+         * Create instruction decoder
+         */
+        instructionDecoder = new InstructionDecoder();
+
         /**
          * Create system clock and initialize to configured timeout
          */
@@ -162,6 +173,54 @@ public class ControlUnit {
      * memory, decoding it and executing it
      */
     public void singleStep() throws IOException {
-        /* To do */
+        /* Get next instruction address from PC and convert to int */
+        int iPC = binaryToInt(pc.read());
+        System.out.printf("[ControlUnit::singleStep] Next instruction address is %d\n", iPC);
+
+        /* Get instruction at address indicated by PC */
+        short instruction = mainMemory.read(iPC);
+        System.out.printf("[ControlUnit::singleStep] Have next instruction: %s\n",
+                Integer.toBinaryString((int)(instruction & 0xffff)));
+
+        /* Decode the instruction */
+        instructionDecoder.decode(instruction);
+
+        /**
+         * After instruction is decoded, we should be able to access the instruction and
+         * operands per the table on the project description
+         */
+        System.out.println("Have instruction and parameters:");
+        System.out.printf("\t\tInstruction = %s\n", instructionDecoder.Instruction);
+        System.out.printf("\t\tx\t\t\t = %d\n", instructionDecoder.x);
+        System.out.printf("\t\tr\t\t\t = %d\n", instructionDecoder.r);
+        System.out.printf("\t\tAddress\t\t = %d\n", instructionDecoder.address);
+    }
+
+    /**
+     * Helper method to convert binary numbers stored as byte array to int
+     *
+     * @param binary Byte array with binary number to convert
+     *
+     * @return Integer representation of binary number
+     */
+    private int binaryToInt(byte [] binary) {
+        double result = 0;
+
+        for (int i = 0; i < binary.length; i++) {
+            int iByte = binary[i] & 0xff;
+            String sByte = Integer.toBinaryString(iByte);
+            System.out.printf("[ControlUnit::binaryToInt] Processing string for byte %d: %s,\n", i, sByte);
+            for (int j = sByte.length() - 1, pow = i * 8; j >= 0; j--, pow++) {
+                System.out.printf("[ControlUnit::binaryToInt] Bit at position %d of byte %d is %s\n",
+                        j, i, sByte.charAt(j));
+                if (sByte.charAt(j) == '1') {
+                    System.out.printf("[ControlUnit::binaryToInt] Bit at position %d is set; Power is %d\n", j, pow);
+                    result += Math.pow(2, pow);
+                    System.out.printf("[ControlUnit::binaryToInt] Current result is: %f\n", result);
+                }
+            }
+        }
+
+        return (int) result;
     }
 }
