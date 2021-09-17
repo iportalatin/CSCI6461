@@ -1,28 +1,101 @@
 package com.csci6461;
 
+import java.nio.ByteBuffer;
+import java.util.BitSet;
+
 /**
  * This class will eventually implement the instruction decoder
  */
 public class InstructionDecoder {
     /**
-     * Parameters to store decoded instructions
+     * Parameter to hold decoder config
      */
-    public String Instruction = "FOO";
-    public int x = 1;
-    public int r = 0;
-    public short address = 0;
+    private DecoderConfig config;
 
     /**
      * Default constructor
      */
     public InstructionDecoder() {
-        /* To do */
+        /* Instantiate decoder config */
+        config = new DecoderConfig();
+    }
+
+    /**
+     * Helper method to extract a 16-bit String representation of a word in memory
+     *
+     * @param word Short containing the word of data to be translated
+     *
+     * @return A string containing the requested bits or the whole
+     *         binary word (up to 16 bits) if index parameters are null
+     */
+    public String getBits(short word) {
+        /* Get Integer string representation of word */
+        String intBits = Integer.toBinaryString((int)word);
+        System.out.printf("[InstructionDecoder::getBits] Input word is: %s, Word is %d bits long\n",
+                intBits, intBits.length());
+        /* Set start and end index to extract 16-bit word  */
+        /* NOTE: It seems that, if the most significant bit is 1, its string representation will get  */
+        /*       extended by 1's up to the length of an int. Code below seems to work for either case */
+        /*       but it needs more testing. */
+        int endNdx = intBits.length();
+        int startNdx = 0;
+
+        /* Adjust start index if there are extra bits in String */
+        if (intBits.length() > 15) {
+            startNdx = intBits.length() - 16;
+        }
+        System.out.printf("[InstructionDecoder::getBits] Extracting bits between %d and %d\n",startNdx, endNdx);
+
+        /* Get string with required bots */
+        String bits = Integer.toBinaryString((int)word).substring(startNdx,endNdx);
+
+        /* Return new BitSet with value of word */
+        return bits;
+    }
+
+    /**
+     * Method to extract an instruction's Opcode
+     *
+     * @param word Short containing the un-decoded instruction
+     *
+     * @return Int with the instruction's Opcode
+     */
+    public int getOpCode(short word) {
+        /* First convert the input short into a 16-bit binary String representation */
+        String bits = getBits(word);
+
+        /* Extract the top 6-bits of the binary Strings */
+        String opcode = bits.substring(0,5);
+        System.out.printf("Extracted Opcode: Instruction = %s, Opcode = %s\n",
+                bits, opcode);
+
+        /* Return decimal representation of binary string */
+        return Integer.parseInt(opcode,2);
     }
 
     /**
      * Method to decode instruction
      */
-    public void decode(short instruction) {
-        /* To do */
+    public Instruction decode(short word) {
+        /* First, extract Opcode from instruction so we know how to process */
+        int opcode = getOpCode(word);
+        System.out.printf("Extracted opcode: %s\n", Integer.toOctalString(opcode));
+
+        /* Look-up instruction by Opcode on decoder config */
+        Instruction instruction = config.getInstruction(opcode);
+        if (instruction != null) {
+            System.out.printf("[InstructionDecoder::decode] Have the param decoder class for Opcode %s: %s\n",
+                    Integer.toOctalString(opcode), instruction.getName());
+
+            /* Save the un-decoded word back into the instruction so we can get the arguments later */
+            instruction.setInstruction(word);
+
+            /* Return decoded instruction to Control Unit for further processing */
+            return instruction;
+        } else {
+            System.out.printf("[InstructionDecoder::decode] Error: Instruction with Opcode %s not found in config!\n",
+                    Integer.toOctalString(opcode));
+            return null;
+        }
     }
 }
