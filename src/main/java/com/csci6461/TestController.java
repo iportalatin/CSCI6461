@@ -8,6 +8,8 @@
 package com.csci6461;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -147,7 +149,13 @@ public class TestController {
         }
 
         /* Put an instruction in memory and save address to PC */
-        short testInstruction = (short) 0xAAff;
+//        short testInstruction = (short) 0xAAff;
+        ByteBuffer buffer = ByteBuffer.allocate(2);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.put((byte) 0xAA);
+//        buffer.put((byte) 0xff);
+        buffer.put((byte) 0x78);
+        short testInstruction = buffer.getShort(0);
         byte[] testAddress = new byte[]{ 0x10, 0x04 };
         result[0] = testAddress[1] & 0xff;
         result[1] = testAddress[0] & 0xff;
@@ -162,6 +170,10 @@ public class TestController {
             System.out.println("Exception while loading test address into pc...");
             ioe.printStackTrace();
         }
+
+        /* Write memory address 6 to slot 1 for machine fault */
+        short fault = 6;
+        cu.load(1, fault);
 
         /* Call singleStep on CU to execute test instruction */
         try {

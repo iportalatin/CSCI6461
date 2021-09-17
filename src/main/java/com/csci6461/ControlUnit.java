@@ -4,6 +4,7 @@
 package com.csci6461;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * Acts as simulated Control Unit (CU) for simple CSCI 6461 simulated computer.
@@ -143,7 +144,40 @@ public class ControlUnit {
         try {
             mainMemory.write(address, data);
         } catch(IOException ioe) {
-            System.out.println("Execption while writing to memory...");
+            System.out.println("Exception while writing to memory...");
+            ioe.printStackTrace();
+        }
+    }
+
+    /**
+     * Method to process a TRAP instruction
+     *
+     * @param instruction An object implementing the Instruction abstract class for Miscellaneous instructions
+     */
+    public void processTrap(Instruction instruction) {
+        /* Get trap code from instruction */
+        int[] args = instruction.getArguments();
+        System.out.printf("[ControlUnit::processTrap] Arguments for trap code instruction: %d\n", args[0]);
+
+        /* Per instructions, trap logic for Part 1 only fetches memory location 1 and saves it PC  */
+        /* NOTE: Memory location 1 should contain the address of memory location 6, which should have a HALT */
+        try {
+            short faultAddress = mainMemory.read(1);
+
+            /* Convert word read from memory to byte array */
+            ByteBuffer bytes = ByteBuffer.allocate(2).putShort(faultAddress);
+            System.out.printf("[ControlUnit::processTrap] Loaded machine fault location: %s %s\n",
+                    Integer.toBinaryString(bytes.array()[0]),
+                    Integer.toBinaryString(bytes.array()[1]));
+
+            /* Load fault address to PC register so we will go to trap routine on next cycle */
+            pc.load(bytes.array());
+            System.out.printf("[ControlUnit::processTrap] Loaded fault address to PC: %s %s\n",
+                    Integer.toBinaryString(pc.read()[0]),
+                    Integer.toBinaryString(pc.read()[1]));
+
+        } catch (IOException ioe) {
+            System.out.println("Exception while reading fault address from memory...");
             ioe.printStackTrace();
         }
     }
@@ -183,17 +217,29 @@ public class ControlUnit {
                 Integer.toBinaryString((int)(instruction & 0xffff)));
 
         /* Decode the instruction */
-        instructionDecoder.decode(instruction);
+        Instruction decodedInstruction = instructionDecoder.decode(instruction);
 
-        /**
-         * After instruction is decoded, we should be able to access the instruction and
-         * operands per the table on the project description
-         */
-        System.out.println("Have instruction and parameters:");
-        System.out.printf("\t\tInstruction = %s\n", instructionDecoder.Instruction);
-        System.out.printf("\t\tx\t\t\t = %d\n", instructionDecoder.x);
-        System.out.printf("\t\tr\t\t\t = %d\n", instructionDecoder.r);
-        System.out.printf("\t\tAddress\t\t = %d\n", instructionDecoder.address);
+        /* If decoder return null, something went wrong */
+        if (decodedInstruction == null) {
+            /* Invalid Instruction; throw exception... */
+            String error = String.format("Opcode for instruction %s is invalid!",
+                    Integer.toBinaryString((int)(instruction & 0xffff)));
+            throw new IOException(error);
+        }
+
+        /* Process instruction according to translated Opcode */
+        System.out.printf("[ControlUnit::singleStep] Processing instruction: %s\n", decodedInstruction.getName());
+
+        switch (decodedInstruction.getName()) {
+            case "HLT":
+                System.out.println("[ControlUnit::singleStep] Processing Halt instruction...\n");
+                break;
+            case "TRAP":
+                System.out.println("[ControlUnit::singleStep] Processing Trap instruction...\n");
+                processTrap(decodedInstruction);
+                break;
+
+        }
     }
 
     /**
