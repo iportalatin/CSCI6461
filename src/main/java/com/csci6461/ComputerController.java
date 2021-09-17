@@ -2,11 +2,16 @@ package com.csci6461;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.BitSet;
+import java.util.Scanner;
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.math.BigInteger;
 
 /**
  * Class for controlling elements of the UI.
@@ -138,73 +143,73 @@ public class ComputerController {
      * Handles loading of bits for the MAR.
      */
     @FXML
-    protected void onMARLoadClick() {
-        translateBits(marController);
+    protected void onMARLoadClick() throws IOException{
+        cu.mar.load(translateBits(marController));
     }
 
     /**
      * Handles loading of bits for the MBR.
      */
     @FXML
-    protected void onMBRLoadClick() {
-        translateBits(mbrController);
+    protected void onMBRLoadClick() throws IOException{
+        cu.mbr.load(translateBits(mbrController));
     }
 
     /**
      * Handles loading of bits for the GPR0.
      */
     @FXML
-    protected void onGPR0LoadClick() {
-        translateBits(gpr0Controller);
+    protected void onGPR0LoadClick() throws IOException{
+        cu.gpr[0].load(translateBits(gpr0Controller));
     }
 
     /**
      * Handles loading of bits for the GPR0.
      */
     @FXML
-    protected void onGPR1LoadClick() {
-        translateBits(gpr1Controller);
+    protected void onGPR1LoadClick() throws IOException{
+        cu.gpr[1].load(translateBits(gpr1Controller));
     }
 
     /**
      * Handles loading of bits for the GPR0.
      */
     @FXML
-    protected void onGPR2LoadClick() {
+    protected void onGPR2LoadClick() throws IOException{
 
-        translateBits(gpr2Controller);
+        cu.gpr[2].load(translateBits(gpr2Controller));
     }
 
     /**
      * Handles loading of bits for the GPR3.
      */
     @FXML
-    protected void onGPR3LoadClick() {
-        translateBits(gpr3Controller);
+    protected void onGPR3LoadClick() throws IOException{
+        cu.gpr[3].load(translateBits(gpr3Controller));
     }
 
     /**
      * Handles loading of bits for the IXR0.
      */
     @FXML
-    protected void onIXR0LoadClick() {
-        translateBits(ixr0Controller);
+    protected void onIXR0LoadClick() throws IOException{
+        cu.ixr[0].load(translateBits(ixr0Controller));
     }
 
     /**
      * Handles loading of bits for the IXR0.
      */
     @FXML
-    protected void onIXR1LoadClick() {
-        translateBits(ixr1Controller);
+    protected void onIXR1LoadClick() throws IOException{
+        cu.ixr[1].load(translateBits(ixr1Controller));
     }
 
     /**
      * Handles loading of bits for the IXR0.
      */
     @FXML
-    protected void onIXR2LoadClick() {
-        translateBits(ixr2Controller);
+    protected void onIXR2LoadClick() throws IOException{
+        cu.ixr[2].load(translateBits(ixr2Controller));
     }
 
 
@@ -233,6 +238,51 @@ public class ComputerController {
         // Return the byte array
         return bits.toByteArray();
 
+    }
+
+    /**
+     * Allows the user to select a file and then load that file into memory.
+     * @throws IOException
+     */
+    @FXML
+    protected void onLoadFileClick() {
+        JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        fc.showOpenDialog(null);
+        String file_path = fc.getSelectedFile().getAbsolutePath();
+
+        try {
+            File thisFile = new File(file_path);
+            Scanner reader = new Scanner(thisFile);
+
+            while (reader.hasNextLine()) {
+
+                String[] data = reader.nextLine().split(" ",2);
+                short memory = toByteArray(data[0]);
+                short value = toByteArray(data[1]);
+
+                cu.load(memory,value);
+            }
+        } catch (FileNotFoundException e){
+            System.out.println("ERROR: File not found!");
+        }
+    }
+
+    @FXML
+    protected void onPrtMemClick(){
+        cu.printMem();
+    }
+
+    private short toByteArray(String s) {
+        short it = (short) Integer.parseInt(s, 16);
+        System.out.println("Hexadecimal String " + s);
+//        BigInteger bigInt = BigInteger.valueOf(it);
+//        byte[] bytearray = (bigInt.toByteArray());
+//        System.out.print("Byte Array : ");
+//        for(int i = 0; i < bytearray.length; i++) {
+//            System.out.print(bytearray[i] + "\t");
+//        }
+//        System.out.print("\n short val: "+it);
+        return it;
     }
 
 }

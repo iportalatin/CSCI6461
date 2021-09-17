@@ -108,4 +108,69 @@ public class Register extends BitSet {
     public byte[] read() {
         return super.toByteArray();
     }
+
+    /**
+     * This methods gets an array of ints with the position of the
+     * bits currently set in the register
+     * NOTE: Unlike the load method above, if there's overflow, this
+     *       method will throw an exception after setting the bits
+     *       since there is no way to check overflow without iterating
+     *       twice through the bits array; This could be a desirable
+     *       feature for arithmetic operations, so we will have to
+     *       decide if we want to keep or change it later on
+     *
+     * @param bits An array of ints with bit positions to set
+     *
+     * @throws  IOException If setting bits causes overflow
+     */
+    public void setBits(int[] bits) throws IOException {
+        boolean overflow = false;
+
+        /* Zero out bitSet before beginning */
+        super.clear();
+
+        for (int i = 0; i < bits.length; i++) {
+            /* Check for overflow */
+            if (bits[i] >= size) {
+                overflow = true;
+            } else {
+                super.set(bits[i]);
+            }
+        }
+
+        /* Throw exception if there was overflow */
+        if (overflow) {
+            String error = String.format("Overflow on register %s",name);
+            throw new IOException(error);
+        }
+    }
+
+    /**
+     * This methods gets an array of ints with the position of the
+     * bits currently set in the register
+     *
+     * @return array of ints with position of bits set in register
+     */
+    public int[] getSetBits() {
+
+        /* Get string representation of bit set */
+        String bits = super.toString();
+        System.out.printf("[Register::getSetBits] Have string representation from parent: %s\n", bits);
+
+        /* Split string */
+        String[] splitBits = bits.split("[,{}]");
+        System.out.printf("[Register::getSetBots] Result of split bits string: %s\n", Arrays.toString(splitBits));
+
+        /* Convert array of Strings from split into array of ints */
+        /**
+         * NOTE: Splitting on the regex above seems to remove the initial curly brace but
+         *       returns an empty first element. Assuming we can just throw away first element.
+         */
+        int[] output = new int [splitBits.length - 1];
+        for (int i = 0; i < splitBits.length - 1; i++) {
+            output[i] = Integer.parseInt(splitBits[i+1].trim());
+        }
+
+        return output;
+    }
 }

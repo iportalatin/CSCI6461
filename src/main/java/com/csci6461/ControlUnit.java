@@ -4,6 +4,7 @@
 package com.csci6461;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * Acts as simulated Control Unit (CU) for simple CSCI 6461 simulated computer.
@@ -15,21 +16,40 @@ import java.io.IOException;
  */
 public class ControlUnit {
     /**
-     * Initialize static variable with size of main memory
-     * NOTE: This should probably eventually come from some config file 
-     *       that is loaded at execution
+     * Initialize static configuration variables
+     * NOTE: This should probably eventually come from some config file
+     * that is loaded at execution
      */
-    private static final int MEMORY_SIZE = 2048;
-    
-    /** Initialize timeout period in ms
-     * NOTE: This should probably eventually come from some config file 
-     *       that is loaded at execution
-     */
-    private static final long CLOCK_TIMEOUT = 1000;
+    private static final int MEMORY_SIZE = 2048;     /* Size of main memory */
+    private static final long CLOCK_TIMEOUT = 1000;  /* Clock timeout period */
+    private static final int NUMBER_OF_GPR = 4;      /* Number of general purpose registers */
+    private static final int NUMBER_OF_IXR = 3;      /* Number of general purpose registers */
+
     /**
      * Parameter to hold the Program Counter (PC) register
      */
     public Register pc;
+
+    /**
+     * Parameter to hold the General Purpose Registers (GPR)
+     */
+    public Register[] gpr;
+
+    /**
+     * Parameter to hold the IX Registers (IXR)
+     */
+    public Register[] ixr;
+
+    /**
+     * Parameter to hold the Memory Address Register (MAR)
+     */
+    public Register mar;
+
+    /**
+     * Parameter to hold the Memory Buffer Register (MBR)
+     */
+    public Register mbr;
+
     /**
      * Parameter to hold the computer's main memory
      * NOTE: Setting to private for now since I don't think memory needs to 
@@ -37,6 +57,12 @@ public class ControlUnit {
      *       first. We may have to change this as we build out the sim.
      */
     private Memory mainMemory;
+
+    /**
+     * Parameter to hold the computer's instruction decoder
+     */
+    private InstructionDecoder instructionDecoder;
+
     /**
      * Parameter to hold system clock
      */
@@ -57,6 +83,34 @@ public class ControlUnit {
          */
 
         pc = new Register("PC",12);
+
+        /**
+         * Create appropriate number of General Purpose Registers (GPR)
+         */
+        gpr = new Register[NUMBER_OF_GPR];
+        for (int i = 0; i < NUMBER_OF_GPR; i++) {
+            String name = String.format("GPR%d", i);
+            gpr[i] = new Register(name, 16);
+        }
+
+        /**
+         * Create appropriate number of IX Registers (IXR)
+         */
+        ixr = new Register[NUMBER_OF_IXR];
+        for (int i = 0; i < NUMBER_OF_IXR; i++) {
+            String name = String.format("IXR%d", i);
+            ixr[i] = new Register(name, 16);
+        }
+
+        /**
+         * Create Memory Address Register (MAR)
+         */
+        mar = new Register("MAR",12);
+
+        /**
+         * Create Memory Buffer Register (MBR)
+         */
+        mbr = new Register("MBR",16);
         
         /**
          * Create main memory of appropriate size
@@ -67,7 +121,12 @@ public class ControlUnit {
             System.out.println("Execption while creating computer memory...");
             ioe.printStackTrace();
         }
-        
+
+        /**
+         * Create instruction decoder
+         */
+        instructionDecoder = new InstructionDecoder();
+
         /**
          * Create system clock and initialize to configured timeout
          */
@@ -85,7 +144,40 @@ public class ControlUnit {
         try {
             mainMemory.write(address, data);
         } catch(IOException ioe) {
-            System.out.println("Execption while writing to memory...");
+            System.out.println("Exception while writing to memory...");
+            ioe.printStackTrace();
+        }
+    }
+
+    /**
+     * Method to process a TRAP instruction
+     *
+     * @param instruction An object implementing the Instruction abstract class for Miscellaneous instructions
+     */
+    public void processTrap(Instruction instruction) {
+        /* Get trap code from instruction */
+        int[] args = instruction.getArguments();
+        System.out.printf("[ControlUnit::processTrap] Arguments for trap code instruction: %d\n", args[0]);
+
+        /* Per instructions, trap logic for Part 1 only fetches memory location 1 and saves it PC  */
+        /* NOTE: Memory location 1 should contain the address of memory location 6, which should have a HALT */
+        try {
+            short faultAddress = mainMemory.read(1);
+
+            /* Convert word read from memory to byte array */
+            ByteBuffer bytes = ByteBuffer.allocate(2).putShort(faultAddress);
+            System.out.printf("[ControlUnit::processTrap] Loaded machine fault location: %s %s\n",
+                    Integer.toBinaryString(bytes.array()[0]),
+                    Integer.toBinaryString(bytes.array()[1]));
+
+            /* Load fault address to PC register so we will go to trap routine on next cycle */
+            pc.load(bytes.array());
+            System.out.printf("[ControlUnit::processTrap] Loaded fault address to PC: %s %s\n",
+                    Integer.toBinaryString(pc.read()[0]),
+                    Integer.toBinaryString(pc.read()[1]));
+
+        } catch (IOException ioe) {
+            System.out.println("Exception while reading fault address from memory...");
             ioe.printStackTrace();
         }
     }
@@ -108,5 +200,77 @@ public class ControlUnit {
                 Continue = false;
             }
         }
+    }
+
+    /**
+     * Method to execute single step by getting the next instruction in
+     * memory, decoding it and executing it
+     */
+    public void singleStep() throws IOException {
+        /* Get next instruction address from PC and convert to int */
+        int iPC = binaryToInt(pc.read());
+        System.out.printf("[ControlUnit::singleStep] Next instruction address is %d\n", iPC);
+
+        /* Get instruction at address indicated by PC */
+        short instruction = mainMemory.read(iPC);
+        System.out.printf("[ControlUnit::singleStep] Have next instruction: %s\n",
+                Integer.toBinaryString((int)(instruction & 0xffff)));
+
+        /* Decode the instruction */
+        Instruction decodedInstruction = instructionDecoder.decode(instruction);
+
+        /* If decoder return null, something went wrong */
+        if (decodedInstruction == null) {
+            /* Invalid Instruction; throw exception... */
+            String error = String.format("Opcode for instruction %s is invalid!",
+                    Integer.toBinaryString((int)(instruction & 0xffff)));
+            throw new IOException(error);
+        }
+
+        /* Process instruction according to translated Opcode */
+        System.out.printf("[ControlUnit::singleStep] Processing instruction: %s\n", decodedInstruction.getName());
+
+        switch (decodedInstruction.getName()) {
+            case "HLT":
+                System.out.println("[ControlUnit::singleStep] Processing Halt instruction...\n");
+                break;
+            case "TRAP":
+                System.out.println("[ControlUnit::singleStep] Processing Trap instruction...\n");
+                processTrap(decodedInstruction);
+                break;
+
+        }
+    }
+
+    /**
+     * Helper method to convert binary numbers stored as byte array to int
+     *
+     * @param binary Byte array with binary number to convert
+     *
+     * @return Integer representation of binary number
+     */
+    private int binaryToInt(byte [] binary) {
+        double result = 0;
+
+        for (int i = 0; i < binary.length; i++) {
+            int iByte = binary[i] & 0xff;
+            String sByte = Integer.toBinaryString(iByte);
+            System.out.printf("[ControlUnit::binaryToInt] Processing string for byte %d: %s,\n", i, sByte);
+            for (int j = sByte.length() - 1, pow = i * 8; j >= 0; j--, pow++) {
+                System.out.printf("[ControlUnit::binaryToInt] Bit at position %d of byte %d is %s\n",
+                        j, i, sByte.charAt(j));
+                if (sByte.charAt(j) == '1') {
+                    System.out.printf("[ControlUnit::binaryToInt] Bit at position %d is set; Power is %d\n", j, pow);
+                    result += Math.pow(2, pow);
+                    System.out.printf("[ControlUnit::binaryToInt] Current result is: %f\n", result);
+                }
+            }
+        }
+
+        return (int) result;
+    }
+
+    public void printMem(){
+        mainMemory.printMemory();
     }
 }
