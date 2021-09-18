@@ -93,6 +93,8 @@ public class ComputerController {
     private CheckBox[] irController;
     private CheckBox[] mfrController;
 
+    private CheckBox[][] gpr;
+
 
     @FXML
     private void initialize() {
@@ -126,6 +128,8 @@ public class ComputerController {
         irController = new CheckBox[]{ir_1,ir_2,ir_3,ir_4,ir_5,ir_6,ir_7,ir_8,ir_9,ir_10,ir_11,ir_12,ir_13,ir_14,
                 ir_15,ir_16};
         mfrController = new CheckBox[]{mfr_1,mfr_2,mfr_4,mfr_8};
+
+        gpr = new CheckBox[][]{gpr0Controller,gpr1Controller,gpr2Controller,gpr3Controller};
 
     }
 
@@ -282,6 +286,11 @@ public class ComputerController {
     @FXML
     protected void onStepClick() throws IOException{
         cu.singleStep();
+        updateUI();
+    }
+
+    private void updateUI() {
+        setUIElem(cu.gpr, gpr);
     }
 
     private short toByteArray(String s) {
@@ -295,6 +304,28 @@ public class ComputerController {
 //        }
 //        System.out.print("\n short val: "+it);
         return it;
+    }
+
+    private void setUIElem(Register[] registers, CheckBox[][] controllers){
+        for(int i = 0; i< registers.length;i++){
+            CheckBox[] controller = controllers[i];
+            resetUI(controller);
+            int[] set_bits = registers[i].getSetBits();
+
+            if(set_bits == null){
+                continue;
+            }
+
+            for(int a: set_bits){
+                controller[a].setSelected(true);
+            }
+        }
+    }
+
+    private void resetUI(CheckBox[] controller) {
+        for(CheckBox x:controller){
+            x.setSelected(false);
+        }
     }
 
 }

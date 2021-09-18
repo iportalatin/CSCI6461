@@ -105,9 +105,6 @@ public class Memory {
             if (data[i]!=0){
                 String pos = "0x"+formatHex(Integer.toHexString(i & 0xffff)).toUpperCase();
                 String val = "0x"+formatHex(Integer.toHexString(data[i] & 0xffff)).toUpperCase();
-                System.out.println(Integer.toHexString(data[i] & 0xffff));
-                System.out.println(String.format("%16s", Integer.toBinaryString(data[i])).replace(' ', '0'));
-
                 System.out.println("|   "+pos+"    |   "+val+"    |");
             }
         }

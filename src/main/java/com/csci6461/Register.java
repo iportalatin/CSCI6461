@@ -55,7 +55,13 @@ public class Register extends BitSet {
     public int getSize() {
         return size;
     }
-    
+
+    public void load(boolean[] data) throws IOException{
+        for(int i=0;i<this.size;i++){
+            super.set(i,data[i]);
+        }
+    }
+
     /**
      * This method loads a word of data into the register
      * 
@@ -152,6 +158,9 @@ public class Register extends BitSet {
      * @return array of ints with position of bits set in register
      */
     public int[] getSetBits() {
+        if(super.cardinality() <=0){
+            return null;
+        }
 
         /* Get string representation of bit set */
         String bits = super.toString();

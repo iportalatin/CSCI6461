@@ -30,10 +30,10 @@ public class MemOp extends Instruction{
         /* Save trap code to args array */
         int[] args = new int[4];
 
-        args[0] = Integer.parseInt(gpr);
-        args[1] = Integer.parseInt(ixr);
-        args[2] = Integer.parseInt(i);
-        args[3] = Integer.parseInt(address);
+        args[0] = Integer.parseInt(gpr,2);
+        args[1] = Integer.parseInt(ixr,2);
+        args[2] = Integer.parseInt(i,2);
+        args[3] = Integer.parseInt(address,2);
 
         /* Return args */
         return args;

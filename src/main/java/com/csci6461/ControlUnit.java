@@ -3,8 +3,14 @@
  */
 package com.csci6461;
 
+import javafx.scene.control.CheckBox;
+
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.Collections;
 
 /**
  * Acts as simulated Control Unit (CU) for simple CSCI 6461 simulated computer.
@@ -182,8 +188,32 @@ public class ControlUnit {
         }
     }
 
-    protected void processLDA(Instruction instruction){
-        instruction.getArguments();
+    protected void processLDA(Instruction instruction) throws IOException{
+        int[] args;
+        args = instruction.getArguments();
+
+        short effectiveAddress = calculateEA(args[3],args[1],args[2]);
+        System.out.println(effectiveAddress);
+        System.out.println(Integer.toHexString(mainMemory.read(effectiveAddress)));
+        System.out.println(getBinaryString(mainMemory.read(effectiveAddress)));
+
+        String temp = new StringBuilder(new String(getBinaryString(mainMemory.read(effectiveAddress)))).reverse().toString();
+        char[] binary =temp.toCharArray();
+        boolean[] data = new boolean[binary.length];
+        for(int i=0; i<binary.length;i++){
+            if(binary[i] == '1'){
+                data[i] = true;
+            }
+        }
+
+        Collections.reverse(Arrays.asList(data));
+
+        try {
+            gpr[args[0]].load(data);
+        } catch (IOException e) {
+            System.out.println("[ERROR]:: Could Not read memory");
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -290,8 +320,8 @@ public class ControlUnit {
      * @param i
      * @return
      */
-    private short calcuateEA(short address, short ix, boolean i){
-        return 0;
+    private short calculateEA(int address, int ix, int i){
+        return (short)address;
     }
 
     /**
@@ -308,5 +338,16 @@ public class ControlUnit {
      */
     private String getBinaryString(short word){
         return String.format("%16s", Integer.toBinaryString(word)).replace(' ', '0');
+    }
+
+    /**
+     * Gets the 16-bit array values.
+     @param value The value to convert to a byte array
+     @return A byte array
+     */
+    private byte[] translateBits(short value) {
+        ByteBuffer dbuf = ByteBuffer.allocate(2);
+        dbuf.putShort(value);
+        return dbuf.array();
     }
 }
