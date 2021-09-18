@@ -181,6 +181,10 @@ public class ControlUnit {
             ioe.printStackTrace();
         }
     }
+
+    protected void processLDA(Instruction instruction){
+        instruction.getArguments();
+    }
     
     /**
      * Method to trigger program execution
@@ -214,7 +218,7 @@ public class ControlUnit {
         /* Get instruction at address indicated by PC */
         short instruction = mainMemory.read(iPC);
         System.out.printf("[ControlUnit::singleStep] Have next instruction: %s\n",
-                Integer.toBinaryString((int)(instruction & 0xffff)));
+                getBinaryString(instruction));
 
         /* Decode the instruction */
         Instruction decodedInstruction = instructionDecoder.decode(instruction);
@@ -223,23 +227,32 @@ public class ControlUnit {
         if (decodedInstruction == null) {
             /* Invalid Instruction; throw exception... */
             String error = String.format("Opcode for instruction %s is invalid!",
-                    Integer.toBinaryString((int)(instruction & 0xffff)));
+                    getBinaryString(instruction));
             throw new IOException(error);
         }
 
         /* Process instruction according to translated Opcode */
         System.out.printf("[ControlUnit::singleStep] Processing instruction: %s\n", decodedInstruction.getName());
 
-        switch (decodedInstruction.getName()) {
-            case "HLT":
-                System.out.println("[ControlUnit::singleStep] Processing Halt instruction...\n");
-                break;
-            case "TRAP":
-                System.out.println("[ControlUnit::singleStep] Processing Trap instruction...\n");
-                processTrap(decodedInstruction);
+        String name = decodedInstruction.getName();
+
+        /* Check to see if the code is a "special" instruction */
+        if(name == "HLT") {
+            System.out.println("[ControlUnit::singleStep] Processing Halt instruction...\n");
+            return;
+        } else if(name == "TRAP") {
+            System.out.println("[ControlUnit::singleStep] Processing Trap instruction...\n");
+            processTrap(decodedInstruction);
+            return;
+        }
+
+        switch (name){
+            case "LDA":
+                processLDA(decodedInstruction);
                 break;
 
         }
+
     }
 
     /**
@@ -270,7 +283,30 @@ public class ControlUnit {
         return (int) result;
     }
 
+    /**
+     *
+     * @param address
+     * @param ix
+     * @param i
+     * @return
+     */
+    private short calcuateEA(short address, short ix, boolean i){
+        return 0;
+    }
+
+    /**
+     * Prints the main memory to the console
+     */
     public void printMem(){
         mainMemory.printMemory();
+    }
+
+    /**
+     * Get the 16-bit binary string
+     * @param word 16-bit word to convert to binary
+     * @return Returns the binary string with all 16-bits
+     */
+    private String getBinaryString(short word){
+        return String.format("%16s", Integer.toBinaryString(word)).replace(' ', '0');
     }
 }

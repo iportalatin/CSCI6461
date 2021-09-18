@@ -267,9 +267,21 @@ public class ComputerController {
         }
     }
 
+    /**
+     * For printing the memory to the stack
+     */
     @FXML
     protected void onPrtMemClick(){
         cu.printMem();
+    }
+
+    /**
+     * Advance the simulation 1 step
+     * @throws IOException
+     */
+    @FXML
+    protected void onStepClick() throws IOException{
+        cu.singleStep();
     }
 
     private short toByteArray(String s) {

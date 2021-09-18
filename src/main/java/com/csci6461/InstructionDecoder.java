@@ -29,27 +29,8 @@ public class InstructionDecoder {
      *         binary word (up to 16 bits) if index parameters are null
      */
     public String getBits(short word) {
-        /* Get Integer string representation of word */
-        String intBits = Integer.toBinaryString((int)word);
-        System.out.printf("[InstructionDecoder::getBits] Input word is: %s, Word is %d bits long\n",
-                intBits, intBits.length());
-        /* Set start and end index to extract 16-bit word  */
-        /* NOTE: It seems that, if the most significant bit is 1, its string representation will get  */
-        /*       extended by 1's up to the length of an int. Code below seems to work for either case */
-        /*       but it needs more testing. */
-        int endNdx = intBits.length();
-        int startNdx = 0;
-
-        /* Adjust start index if there are extra bits in String */
-        if (intBits.length() > 15) {
-            startNdx = intBits.length() - 16;
-        }
-        System.out.printf("[InstructionDecoder::getBits] Extracting bits between %d and %d\n",startNdx, endNdx);
-
-        /* Get string with required bots */
-        String bits = Integer.toBinaryString((int)word).substring(startNdx,endNdx);
-
-        /* Return new BitSet with value of word */
+        String bits = String.format("%16s", Integer.toBinaryString(word)).replace(' ', '0');
+        System.out.println(bits);
         return bits;
     }
 
@@ -65,7 +46,7 @@ public class InstructionDecoder {
         String bits = getBits(word);
 
         /* Extract the top 6-bits of the binary Strings */
-        String opcode = bits.substring(0,5);
+        String opcode = bits.substring(0,6);
         System.out.printf("Extracted Opcode: Instruction = %s, Opcode = %s\n",
                 bits, opcode);
 
@@ -77,9 +58,9 @@ public class InstructionDecoder {
      * Method to decode instruction
      */
     public Instruction decode(short word) {
-        /* First, extract Opcode from instruction so we know how to process */
+        /* First, extract Opcode from instructions we know how to process */
         int opcode = getOpCode(word);
-        System.out.printf("Extracted opcode: %s\n", Integer.toOctalString(opcode));
+        System.out.printf("Extracted opcode: %s\n", opcode);
 
         /* Look-up instruction by Opcode on decoder config */
         Instruction instruction = config.getInstruction(opcode);

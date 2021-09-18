@@ -27,8 +27,9 @@ public class DecoderConfig {
      * and return parameters for that type of instruction.
      */
     DecoderConfig() {
-        instructions.put(000, new MiscInstruction("HLT"));
-        instructions.put(036, new MiscInstruction("TRAP"));
+        instructions.put(0, new MiscInstruction("HLT"));
+        instructions.put(36, new MiscInstruction("TRAP"));
+        instructions.put(1, new MemOp("LDA"));
     }
 
     /**
