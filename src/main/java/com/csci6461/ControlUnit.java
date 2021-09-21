@@ -3,14 +3,9 @@
  */
 package com.csci6461;
 
-import javafx.scene.control.CheckBox;
-
 import java.io.IOException;
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.BitSet;
-import java.util.Collections;
+import java.util.Objects;
 
 /**
  * Acts as simulated Control Unit (CU) for simple CSCI 6461 simulated computer.
@@ -67,12 +62,12 @@ public class ControlUnit {
     /**
      * Parameter to hold the computer's instruction decoder
      */
-    private InstructionDecoder instructionDecoder;
+    private final InstructionDecoder instructionDecoder;
 
     /**
      * Parameter to hold system clock
      */
-    private Clock systemClock;
+    private final Clock systemClock;
     /**
      * Parameter to start/stop program execution
      */
@@ -84,13 +79,13 @@ public class ControlUnit {
     public ControlUnit() {
         System.out.println("Initializing control unit...");
         
-        /**
+        /*
          * Create Program Counter (PC) register
          */
 
         pc = new Register("PC",12);
 
-        /**
+        /*
          * Create appropriate number of General Purpose Registers (GPR)
          */
         gpr = new Register[NUMBER_OF_GPR];
@@ -99,7 +94,7 @@ public class ControlUnit {
             gpr[i] = new Register(name, 16);
         }
 
-        /**
+        /*
          * Create appropriate number of IX Registers (IXR)
          */
         ixr = new Register[NUMBER_OF_IXR];
@@ -108,17 +103,17 @@ public class ControlUnit {
             ixr[i] = new Register(name, 16);
         }
 
-        /**
+        /*
          * Create Memory Address Register (MAR)
          */
         mar = new Register("MAR",12);
 
-        /**
+        /*
          * Create Memory Buffer Register (MBR)
          */
         mbr = new Register("MBR",16);
         
-        /**
+        /*
          * Create main memory of appropriate size
          */
         try {
@@ -128,12 +123,12 @@ public class ControlUnit {
             ioe.printStackTrace();
         }
 
-        /**
+        /*
          * Create instruction decoder
          */
         instructionDecoder = new InstructionDecoder();
 
-        /**
+        /*
          * Create system clock and initialize to configured timeout
          */
         systemClock = new Clock(CLOCK_TIMEOUT);
@@ -171,16 +166,10 @@ public class ControlUnit {
             short faultAddress = mainMemory.read(1);
 
             /* Convert word read from memory to byte array */
-            ByteBuffer bytes = ByteBuffer.allocate(2).putShort(faultAddress);
-            System.out.printf("[ControlUnit::processTrap] Loaded machine fault location: %s %s\n",
-                    Integer.toBinaryString(bytes.array()[0]),
-                    Integer.toBinaryString(bytes.array()[1]));
+            boolean[] bytes = get_bool_array(getBinaryString(faultAddress));
 
-            /* Load fault address to PC register so we will go to trap routine on next cycle */
-            pc.load(bytes.array());
-            System.out.printf("[ControlUnit::processTrap] Loaded fault address to PC: %s %s\n",
-                    Integer.toBinaryString(pc.read()[0]),
-                    Integer.toBinaryString(pc.read()[1]));
+            /* Load fault address to PC registerso we will go to trap routine on next cycle */
+            pc.load(bytes);
 
         } catch (IOException ioe) {
             System.out.println("Exception while reading fault address from memory...");
@@ -188,27 +177,20 @@ public class ControlUnit {
         }
     }
 
+    /**
+     * Does the processing for the LDA instruction
+     * @param instruction The instruction as is from memory
+     * @throws IOException Throws an IO exception
+     */
     protected void processLDA(Instruction instruction) throws IOException{
         int[] args;
         args = instruction.getArguments();
 
-        short effectiveAddress = calculateEA(args[3],args[1],args[2]);
-        System.out.println(effectiveAddress);
-        System.out.println(Integer.toHexString(mainMemory.read(effectiveAddress)));
-        System.out.println(getBinaryString(mainMemory.read(effectiveAddress)));
-
-        String temp = new StringBuilder(new String(getBinaryString(mainMemory.read(effectiveAddress)))).reverse().toString();
-        char[] binary =temp.toCharArray();
-        boolean[] data = new boolean[binary.length];
-        for(int i=0; i<binary.length;i++){
-            if(binary[i] == '1'){
-                data[i] = true;
-            }
-        }
-
-        Collections.reverse(Arrays.asList(data));
+        boolean[] data = getData(args[3],args[1],args[2]);
 
         try {
+            System.out.println(Arrays.toString(data));
+            System.out.println(data.length);
             gpr[args[0]].load(data);
         } catch (IOException e) {
             System.out.println("[ERROR]:: Could Not read memory");
@@ -242,7 +224,7 @@ public class ControlUnit {
      */
     public void singleStep() throws IOException {
         /* Get next instruction address from PC and convert to int */
-        int iPC = binaryToInt(pc.read());
+        int iPC = pc.read();
         System.out.printf("[ControlUnit::singleStep] Next instruction address is %d\n", iPC);
 
         /* Get instruction at address indicated by PC */
@@ -267,10 +249,10 @@ public class ControlUnit {
         String name = decodedInstruction.getName();
 
         /* Check to see if the code is a "special" instruction */
-        if(name == "HLT") {
+        if(Objects.equals(name, "HLT")) {
             System.out.println("[ControlUnit::singleStep] Processing Halt instruction...\n");
             return;
-        } else if(name == "TRAP") {
+        } else if(Objects.equals(name, "TRAP")) {
             System.out.println("[ControlUnit::singleStep] Processing Trap instruction...\n");
             processTrap(decodedInstruction);
             return;
@@ -278,6 +260,7 @@ public class ControlUnit {
 
         switch (name){
             case "LDA":
+                System.out.println("[ControlUnit::singleStep] Processing LDA instruction...\n");
                 processLDA(decodedInstruction);
                 break;
 
@@ -286,39 +269,11 @@ public class ControlUnit {
     }
 
     /**
-     * Helper method to convert binary numbers stored as byte array to int
-     *
-     * @param binary Byte array with binary number to convert
-     *
-     * @return Integer representation of binary number
-     */
-    private int binaryToInt(byte [] binary) {
-        double result = 0;
-
-        for (int i = 0; i < binary.length; i++) {
-            int iByte = binary[i] & 0xff;
-            String sByte = Integer.toBinaryString(iByte);
-            System.out.printf("[ControlUnit::binaryToInt] Processing string for byte %d: %s,\n", i, sByte);
-            for (int j = sByte.length() - 1, pow = i * 8; j >= 0; j--, pow++) {
-                System.out.printf("[ControlUnit::binaryToInt] Bit at position %d of byte %d is %s\n",
-                        j, i, sByte.charAt(j));
-                if (sByte.charAt(j) == '1') {
-                    System.out.printf("[ControlUnit::binaryToInt] Bit at position %d is set; Power is %d\n", j, pow);
-                    result += Math.pow(2, pow);
-                    System.out.printf("[ControlUnit::binaryToInt] Current result is: %f\n", result);
-                }
-            }
-        }
-
-        return (int) result;
-    }
-
-    /**
-     *
-     * @param address
-     * @param ix
-     * @param i
-     * @return
+     * Calculate the effective address for the memory
+     * @param address The address given in the code
+     * @param ix the index register
+     * @param i if the reference is indirect
+     * @return returns the new address
      */
     private short calculateEA(int address, int ix, int i){
         return (short)address;
@@ -337,17 +292,46 @@ public class ControlUnit {
      * @return Returns the binary string with all 16-bits
      */
     private String getBinaryString(short word){
-        return String.format("%16s", Integer.toBinaryString(word)).replace(' ', '0');
+        String val =  String.format("%16s", Integer.toBinaryString(word)).replace(' ', '0');
+        if(val.length() > 16){
+            val = val.substring(val.length()-16);
+        }
+
+        return val;
     }
 
     /**
-     * Gets the 16-bit array values.
-     @param value The value to convert to a byte array
-     @return A byte array
+     * Gets data as a boolean array to be stored as a byte array
+     * @param address The physical address given in opcode
+     * @param ix The index register
+     * @param i The indirect addressing state
+     * @return Returns a boolean array
      */
-    private byte[] translateBits(short value) {
-        ByteBuffer dbuf = ByteBuffer.allocate(2);
-        dbuf.putShort(value);
-        return dbuf.array();
+    private boolean[] getData(int address, int ix, int i) throws IOException{
+        short effectiveAddress = calculateEA(address, ix, i);
+        String mem_value = getBinaryString(mainMemory.read(effectiveAddress));
+
+        return get_bool_array(mem_value);
     }
+
+    /**
+     * Converts a binary string to a boolean array
+     * @param binaryString The binary string to convert
+     * @return the boolean array.
+     */
+    private boolean[] get_bool_array(String binaryString) {
+
+        char[] binary = binaryString.toCharArray(); // Convert to character array
+        boolean[] data = new boolean[binary.length]; // Create a new boolean array
+
+        // Loop through array and flip bits where a 1 is present
+        for(int x=0; x<binary.length;x++){
+            if(binary[x] == '1'){
+                data[x] = true;
+            }
+        }
+
+        return data;
+    }
+    
 }

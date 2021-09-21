@@ -94,6 +94,7 @@ public class ComputerController {
     private CheckBox[] mfrController;
 
     private CheckBox[][] gpr;
+    private CheckBox[][] ixr;
 
 
     @FXML
@@ -130,6 +131,7 @@ public class ComputerController {
         mfrController = new CheckBox[]{mfr_1,mfr_2,mfr_4,mfr_8};
 
         gpr = new CheckBox[][]{gpr0Controller,gpr1Controller,gpr2Controller,gpr3Controller};
+        ixr = new CheckBox[][]{ixr0Controller,ixr1Controller,ixr2Controller};
 
     }
 
@@ -223,9 +225,9 @@ public class ComputerController {
         @param controller The checkbox controller
         @return A byte array
      */
-    private byte[] translateBits(CheckBox[] controller) {
+    private boolean[] translateBits(CheckBox[] controller) {
         // Create a new bit set to track positions of 'on' bits
-        BitSet bits = new BitSet(controller.length);
+        boolean[] bits = new boolean[controller.length];
 
         // Loop through the controller setting matching bits and adding the correct bit to the controller, reset bit.
         for(int i=0; i<controller.length; i++) {
@@ -234,13 +236,11 @@ public class ComputerController {
             bitController[i].setSelected(false);
 
             // If bit is on add to bit set
-            if (val) {
-                bits.set(i);
-            }
+            bits[controller.length-(1+i)] = val;
         }
 
         // Return the byte array
-        return bits.toByteArray();
+        return bits;
 
     }
 
@@ -291,18 +291,12 @@ public class ComputerController {
 
     private void updateUI() {
         setUIElem(cu.gpr, gpr);
+        setUIElem(cu.ixr, ixr);
     }
 
     private short toByteArray(String s) {
         short it = (short) Integer.parseInt(s, 16);
-        System.out.println("Hexadecimal String " + s);
-//        BigInteger bigInt = BigInteger.valueOf(it);
-//        byte[] bytearray = (bigInt.toByteArray());
-//        System.out.print("Byte Array : ");
-//        for(int i = 0; i < bytearray.length; i++) {
-//            System.out.print(bytearray[i] + "\t");
-//        }
-//        System.out.print("\n short val: "+it);
+        System.out.println("Hexadecimal String: " + s);
         return it;
     }
 
@@ -312,16 +306,21 @@ public class ComputerController {
             resetUI(controller);
             int[] set_bits = registers[i].getSetBits();
 
+
             if(set_bits == null){
                 continue;
             }
 
             for(int a: set_bits){
-                controller[a].setSelected(true);
+                controller[15-a].setSelected(true);
             }
         }
     }
 
+    /**
+     * Resets the UI element.
+     * @param controller Takes the check box controller
+     */
     private void resetUI(CheckBox[] controller) {
         for(CheckBox x:controller){
             x.setSelected(false);

@@ -30,7 +30,6 @@ public class InstructionDecoder {
      */
     public String getBits(short word) {
         String bits = String.format("%16s", Integer.toBinaryString(word)).replace(' ', '0');
-        System.out.println(bits);
         return bits;
     }
 

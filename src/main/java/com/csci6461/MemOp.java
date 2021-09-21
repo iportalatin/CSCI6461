@@ -21,12 +21,6 @@ public class MemOp extends Instruction{
         String i = bits.substring(10,11);
         String address = bits.substring(11,16);
 
-        System.out.println(gpr);
-        System.out.println(ixr);
-        System.out.println(i);
-        System.out.println(address);
-
-
         /* Save trap code to args array */
         int[] args = new int[4];
 
