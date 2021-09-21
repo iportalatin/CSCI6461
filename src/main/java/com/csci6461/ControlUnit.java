@@ -189,13 +189,25 @@ public class ControlUnit {
         boolean[] data = getData(args[3],args[1],args[2]);
 
         try {
-            System.out.println(Arrays.toString(data));
-            System.out.println(data.length);
             gpr[args[0]].load(data);
         } catch (IOException e) {
             System.out.println("[ERROR]:: Could Not read memory");
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Stores a register to memory
+     * @param instruction The instruction as is from memory
+     * @throws IOException Throws an IO exception
+     */
+    protected void processSTA(Instruction instruction) throws IOException {
+        int[] args;
+        args = instruction.getArguments();
+
+        short data = (short) gpr[args[0]].read();
+
+        mainMemory.write(calculateEA(args[3],args[1],args[2]), data);
     }
     
     /**
@@ -258,12 +270,15 @@ public class ControlUnit {
             return;
         }
 
-        switch (name){
-            case "LDA":
+        switch (name) {
+            case "LDA" -> {
                 System.out.println("[ControlUnit::singleStep] Processing LDA instruction...\n");
                 processLDA(decodedInstruction);
-                break;
-
+            }
+            case "STA" -> {
+                System.out.println("[ControlUnit::singleStep] Processing STA instruction...\n");
+                processSTA(decodedInstruction);
+            }
         }
 
     }
