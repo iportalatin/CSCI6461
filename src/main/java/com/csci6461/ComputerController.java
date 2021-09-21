@@ -2,11 +2,16 @@ package com.csci6461;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.BitSet;
+import java.util.Scanner;
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.math.BigInteger;
 
 /**
  * Class for controlling elements of the UI.
@@ -88,6 +93,9 @@ public class ComputerController {
     private CheckBox[] irController;
     private CheckBox[] mfrController;
 
+    private CheckBox[][] gpr;
+    private CheckBox[][] ixr;
+
 
     @FXML
     private void initialize() {
@@ -121,6 +129,9 @@ public class ComputerController {
         irController = new CheckBox[]{ir_1,ir_2,ir_3,ir_4,ir_5,ir_6,ir_7,ir_8,ir_9,ir_10,ir_11,ir_12,ir_13,ir_14,
                 ir_15,ir_16};
         mfrController = new CheckBox[]{mfr_1,mfr_2,mfr_4,mfr_8};
+
+        gpr = new CheckBox[][]{gpr0Controller,gpr1Controller,gpr2Controller,gpr3Controller};
+        ixr = new CheckBox[][]{ixr0Controller,ixr1Controller,ixr2Controller};
 
     }
 
@@ -214,9 +225,9 @@ public class ComputerController {
         @param controller The checkbox controller
         @return A byte array
      */
-    private byte[] translateBits(CheckBox[] controller) {
+    private boolean[] translateBits(CheckBox[] controller) {
         // Create a new bit set to track positions of 'on' bits
-        BitSet bits = new BitSet(controller.length);
+        boolean[] bits = new boolean[controller.length];
 
         // Loop through the controller setting matching bits and adding the correct bit to the controller, reset bit.
         for(int i=0; i<controller.length; i++) {
@@ -225,14 +236,95 @@ public class ComputerController {
             bitController[i].setSelected(false);
 
             // If bit is on add to bit set
-            if (val) {
-                bits.set(i);
-            }
+            bits[controller.length-(1+i)] = val;
         }
 
         // Return the byte array
-        return bits.toByteArray();
+        return bits;
 
+    }
+
+    /**
+     * Allows the user to select a file and then load that file into memory.
+     * @throws IOException
+     */
+    @FXML
+    protected void onLoadFileClick() {
+        JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        fc.showOpenDialog(null);
+        String file_path = fc.getSelectedFile().getAbsolutePath();
+
+        try {
+            File thisFile = new File(file_path);
+            Scanner reader = new Scanner(thisFile);
+
+            while (reader.hasNextLine()) {
+
+                String[] data = reader.nextLine().split(" ",2);
+                short memory = toByteArray(data[0]);
+                short value = toByteArray(data[1]);
+
+                cu.load(memory,value);
+            }
+        } catch (FileNotFoundException e){
+            System.out.println("ERROR: File not found!");
+        }
+    }
+
+    /**
+     * For printing the memory to the stack
+     */
+    @FXML
+    protected void onPrtMemClick(){
+        cu.printMem();
+    }
+
+    /**
+     * Advance the simulation 1 step
+     * @throws IOException
+     */
+    @FXML
+    protected void onStepClick() throws IOException{
+        cu.singleStep();
+        updateUI();
+    }
+
+    private void updateUI() {
+        setUIElem(cu.gpr, gpr);
+        setUIElem(cu.ixr, ixr);
+    }
+
+    private short toByteArray(String s) {
+        short it = (short) Integer.parseInt(s, 16);
+        System.out.println("Hexadecimal String: " + s);
+        return it;
+    }
+
+    private void setUIElem(Register[] registers, CheckBox[][] controllers){
+        for(int i = 0; i< registers.length;i++){
+            CheckBox[] controller = controllers[i];
+            resetUI(controller);
+            int[] set_bits = registers[i].getSetBits();
+
+
+            if(set_bits == null){
+                continue;
+            }
+
+            for(int a: set_bits){
+                controller[15-a].setSelected(true);
+            }
+        }
+    }
+
+    /**
+     * Resets the UI element.
+     * @param controller Takes the check box controller
+     */
+    private void resetUI(CheckBox[] controller) {
+        for(CheckBox x:controller){
+            x.setSelected(false);
+        }
     }
 
 }
