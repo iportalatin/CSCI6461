@@ -52,6 +52,11 @@ public class ControlUnit {
     public Register mbr;
 
     /**
+     * Parameter to hold the Instruction Register (IR)
+     */
+    public Register ir;
+
+    /**
      * Parameter to hold the computer's main memory
      * NOTE: Setting to private for now since I don't think memory needs to 
      *       be read directly outside the CPU but is always loaded to register 
@@ -112,7 +117,12 @@ public class ControlUnit {
          * Create Memory Buffer Register (MBR)
          */
         mbr = new Register("MBR",16);
-        
+
+        /*
+         * Create Instruction Register (IR)
+         */
+        ir = new Register("IR",16);
+
         /*
          * Create main memory of appropriate size
          */
@@ -166,9 +176,9 @@ public class ControlUnit {
             short faultAddress = mainMemory.read(1);
 
             /* Convert word read from memory to byte array */
-            boolean[] bytes = get_bool_array(getBinaryString(faultAddress));
+            boolean[] bytes = get_bool_array(getBinaryString(faultAddress,12));
 
-            /* Load fault address to PC registerso we will go to trap routine on next cycle */
+            /* Load fault address to PC register so we will go to trap routine on next cycle */
             pc.load(bytes);
 
         } catch (IOException ioe) {
@@ -201,7 +211,7 @@ public class ControlUnit {
      * @param instruction The instruction as is from memory
      * @throws IOException Throws an IO exception
      */
-    protected void processSTA(Instruction instruction) throws IOException {
+    protected void processSTR(Instruction instruction) throws IOException {
         int[] args;
         args = instruction.getArguments();
 
@@ -244,6 +254,9 @@ public class ControlUnit {
         System.out.printf("[ControlUnit::singleStep] Have next instruction: %s\n",
                 getBinaryString(instruction));
 
+        /* Load the current instruction into the IR */
+        ir.load(get_bool_array(Integer.toBinaryString((int)instruction)));
+
         /* Decode the instruction */
         Instruction decodedInstruction = instructionDecoder.decode(instruction);
 
@@ -275,9 +288,9 @@ public class ControlUnit {
                 System.out.println("[ControlUnit::singleStep] Processing LDA instruction...\n");
                 processLDA(decodedInstruction);
             }
-            case "STA" -> {
+            case "STR" -> {
                 System.out.println("[ControlUnit::singleStep] Processing STA instruction...\n");
-                processSTA(decodedInstruction);
+                processSTR(decodedInstruction);
             }
         }
 
@@ -290,8 +303,56 @@ public class ControlUnit {
      * @param i if the reference is indirect
      * @return returns the new address
      */
-    private short calculateEA(int address, int ix, int i){
-        return (short)address;
+    private short calculateEA(int address, int ix, int i) throws IOException {
+        short ea = -1;
+
+        System.out.printf("[ControlUnit::CalculateEA] Fields are: Address = %d, IX = %d, I = %d\n",
+                address, ix, i);
+        /* If I field = 0; then NO indirect addressing */
+        if (i == 0) {
+            /* If IX = 0; then NO indirect addressing and EA = address */
+            if (ix == 0) {
+                System.out.println("[ControlUnit::CalculateEA] Direct address without indexing.");
+                ea = (short)address;
+            } else {
+                /* If IX > 0; then we're using indexing */
+                /* NOTE: We must adjust for Java 0 index since IX registers start at 1 NOT 0 */
+                if (ix <= NUMBER_OF_IXR) {
+                    /* Effective address is address field + contents of index field indexed by IX: */
+                    /*                           EA = address + c(IX)                               */
+                    ix--;   /* Decrement IX to adjust for Java array indexing */
+                    System.out.println("[ControlUnit::CalculateEA] Direct address with indexing.");
+                    ea = (short) (address + ixr[ix].read());
+                } else {
+                    String error = String.format("Error: Index register out of bounds: %d\n", ix);
+                    throw new IOException(error);
+                }
+            }
+        }
+        /* I = 1; Use indirect addressing */
+        else {
+            /* If IX = 0; then indirect address but NO indexing */
+            if (ix == 0) {
+                System.out.println("[ControlUnit::CalculateEA] Indirect address without indexing");
+                ea = mainMemory.read(address);
+            } else {
+                /* If IX > 0; then we're using indexing */
+                /* NOTE: We must adjust for Java 0 index since IX registers start at 1 NOT 0 */
+                if (ix <= NUMBER_OF_IXR) {
+                    /* Effective address is contents of memory at location indicated by address field   */
+                    /* + contents of index field indexed by IX:                                         */
+                    /*                           EA = c(address) + c(IX)                                */
+                    ix--;   /* Decrement IX to adjust for Java array indexing */
+                    System.out.println("[ControlUnit::CalculateEA] Direct address with indexing.");
+                    ea = (short) (mainMemory.read(address) + ixr[ix].read());
+                } else {
+                    String error = String.format("Error: Index register out of bounds: %d\n", ix);
+                    throw new IOException(error);
+                }
+            }
+        }
+        System.out.printf("[ControlUnit::CalculateEA] Effective address is: %s\n",ea);
+        return ea;
     }
 
     /**
@@ -309,6 +370,22 @@ public class ControlUnit {
     private String getBinaryString(short word){
         String val =  String.format("%16s", Integer.toBinaryString(word)).replace(' ', '0');
         if(val.length() > 16){
+            val = val.substring(val.length()-16);
+        }
+
+        return val;
+    }
+
+    /**
+     * Get the n-bit binary string
+     * @param word 16-bit word to convert to binary
+     * @return Returns the binary string with all 16-bits
+     */
+    private String getBinaryString(short word, int n){
+        String val =  String.format("%16s", Integer.toBinaryString(word)).replace(' ', '0');
+        if(n <= 16){
+            val = val.substring(val.length()-n);
+        } else {
             val = val.substring(val.length()-16);
         }
 
