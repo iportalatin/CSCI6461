@@ -212,17 +212,23 @@ public class ControlUnit {
      * @param instruction The instruction as is from memory
      * @throws IOException Throws an IO exception
      */
-    private void processSTR(Instruction instruction) throws IOException {
+    private void processST(Instruction instruction, boolean index) throws IOException {
         int[] args;
         args = instruction.getArguments();
 
-        short data = (short) gpr[args[0]].read();
+        short data;
+        if(index){
+            data = (short) ixr[args[1]].read();
+        } else {
+            data = (short) gpr[args[0]].read();
+        }
+
 
         mainMemory.write(calculateEA(args[3],args[1],args[2]), data);
     }
 
     /**
-     * Stores a register to memory
+     * Loads an address reference to register
      * @param instruction The instruction as is from memory
      * @throws IOException Throws an IO exception
      */
@@ -315,7 +321,7 @@ public class ControlUnit {
             }
             case "STR" -> {
                 System.out.println("[ControlUnit::singleStep] Processing STA instruction...\n");
-                processSTR(decodedInstruction);
+                processST(decodedInstruction, false);
             }
             case "LDA" -> {
                 System.out.println("[ControlUnit::singleStep] Processing LDA instruction...\n");
@@ -324,6 +330,10 @@ public class ControlUnit {
             case "LDX" -> {
                 System.out.println("[ControlUnit::singleStep] Processing LDX instruction...\n");
                 processLD(decodedInstruction, true);
+            }
+            case "STX" -> {
+                System.out.println("[ControlUnit::singleStep] Processing STX instruction...\n");
+                processST(decodedInstruction, true);
             }
         }
 

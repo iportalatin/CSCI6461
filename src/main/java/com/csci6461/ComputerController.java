@@ -8,11 +8,9 @@ import javafx.scene.control.ToggleButton;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.BitSet;
 import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-import java.math.BigInteger;
 
 /**
  * Class for controlling elements of the UI.
@@ -23,7 +21,7 @@ public class ComputerController {
     /**
      * Control unit for the system
      */
-    private ControlUnit cu = new ControlUnit();
+    private final ControlUnit cu = new ControlUnit();
 
     @FXML
     private ToggleButton adr0, adr1, adr2, adr3, adr4;
@@ -73,8 +71,8 @@ public class ComputerController {
     private CheckBox ixr2_1, ixr2_2, ixr2_3, ixr2_4, ixr2_5,ixr2_6,ixr2_7,ixr2_8,ixr2_9,ixr2_10,ixr2_11,ixr2_12,
             ixr2_13,ixr2_14,ixr2_15,ixr2_16;
 
-    @FXML
-    private CheckBox mfr_1,mfr_2,mfr_4,mfr_8;
+//    @FXML
+//    private CheckBox mfr_1,mfr_2,mfr_4,mfr_8;
 
     @FXML
     private CheckBox ir_1,ir_2,ir_3,ir_4,ir_5,ir_6,ir_7,ir_8,ir_9,ir_10,ir_11,ir_12,ir_13,ir_14,ir_15,ir_16;
@@ -95,7 +93,7 @@ public class ComputerController {
     private CheckBox[] ixr1Controller;
     private CheckBox[] ixr2Controller;
     private CheckBox[] irController;
-    private CheckBox[] mfrController;
+    // private CheckBox[] mfrController;
 
     private CheckBox[][] gpr;
     private CheckBox[][] ixr;
@@ -132,7 +130,7 @@ public class ComputerController {
 
         irController = new CheckBox[]{ir_1,ir_2,ir_3,ir_4,ir_5,ir_6,ir_7,ir_8,ir_9,ir_10,ir_11,ir_12,ir_13,ir_14,
                 ir_15,ir_16};
-        mfrController = new CheckBox[]{mfr_1,mfr_2,mfr_4,mfr_8};
+        // mfrController = new CheckBox[]{mfr_1,mfr_2,mfr_4,mfr_8};
 
         gpr = new CheckBox[][]{gpr0Controller,gpr1Controller,gpr2Controller,gpr3Controller};
         ixr = new CheckBox[][]{ixr0Controller,ixr1Controller,ixr2Controller};
@@ -286,7 +284,6 @@ public class ComputerController {
 
     /**
      * Allows the user to select a file and then load that file into memory.
-     * @throws IOException
      */
     @FXML
     protected void onLoadFileClick() {
@@ -321,7 +318,7 @@ public class ComputerController {
 
     /**
      * Advance the simulation 1 step
-     * @throws IOException
+     * @throws IOException IO exception from parent
      */
     @FXML
     protected void onStepClick() throws IOException{

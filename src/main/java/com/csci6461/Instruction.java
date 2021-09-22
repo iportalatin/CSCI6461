@@ -58,7 +58,7 @@ public abstract class Instruction {
 
     /**
      * Abstract method to decode the instruction's parameters
-     * @return
+     * @return Returns the array of arguments
      */
     abstract int[] getArguments();
 }

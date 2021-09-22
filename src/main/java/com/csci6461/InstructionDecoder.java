@@ -1,8 +1,5 @@
 package com.csci6461;
 
-import java.nio.ByteBuffer;
-import java.util.BitSet;
-
 /**
  * This class will eventually implement the instruction decoder
  */
@@ -31,7 +28,6 @@ public class InstructionDecoder {
     public String getBits(short word) {
         String s = Integer.toBinaryString(word);
         String bits = String.format("%16s", s).replace(' ', '0');
-        System.out.println(bits.substring(bits.length()-16));
 
         return bits.substring(bits.length()-16);
     }

@@ -10,6 +10,10 @@ public class MemOp extends Instruction{
         super(name);
     }
 
+    /**
+     * Breaks down the instruction getting the relevant arguments
+     * @return Returns an array of arguments
+     */
     @Override
     int[] getArguments() {
         String bits = String.format("%16s", Integer.toBinaryString(super.getInstruction())).replace(' ', '0');
