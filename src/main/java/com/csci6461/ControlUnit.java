@@ -294,6 +294,12 @@ public class ControlUnit {
             }
         }
 
+        short count = (short)pc.read();
+        count++;
+        boolean[] _new_count = get_bool_array(getBinaryString(count));
+        pc.set_bits(_new_count);
+
+
     }
 
     /**

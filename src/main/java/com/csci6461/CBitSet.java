@@ -55,7 +55,7 @@ class CBitSet {
 
         if (new_bit_set.length>no_bytes*4){
 
-            throw new IndexOutOfBoundsException();
+            new_bit_set = cast_down(new_bit_set);
         }
 
         set_zero();
@@ -88,9 +88,8 @@ class CBitSet {
      * Set a given bit based on position
      * @param position Position of bit to set
      * @param value Value to set that bit
-     * @throws ArrayIndexOutOfBoundsException
      */
-    public void set(int position, boolean value) throws ArrayIndexOutOfBoundsException {
+    public void set(int position, boolean value) {
         this.bit_set[position] = value;
     }
 
@@ -139,19 +138,23 @@ class CBitSet {
      * @return the value as an integer
      */
     public int read() {
-        String s = "";
+        StringBuilder s = new StringBuilder();
 
         for(boolean val:this.bit_set){
             if(val){
-                s = s+"1";
+                s.append("1");
             } else {
-                s=s+"0";
+                s.append("0");
             }
         }
 
-        return Integer.parseInt(s,2);
+        return Integer.parseInt(s.toString(),2);
     }
 
+    /**
+     * Gets the set bits as an array
+     * @return Returns array of set bit positions
+     */
     protected int[] get_set_bits(){
         int[] set = new int[cardinality()];
 
@@ -163,5 +166,22 @@ class CBitSet {
             }
         }
         return set;
+    }
+
+    /**
+     * Cast from higher dimensionality down
+     * @param org the higher dimension array
+     * @return The matching dimension array
+     */
+    private boolean[] cast_down(boolean[] org){
+        boolean[] valid = new boolean[no_bytes*4];
+
+        int offset = org.length-valid.length;
+
+        for(int i=org.length-1;i>= offset;i--){
+            valid[i-offset]=org[i];
+        }
+
+        return valid;
     }
 }
