@@ -289,18 +289,38 @@ public class ComputerController {
         updateUI();
     }
 
+    /**
+     * Update the entire UI after a step
+     */
     private void updateUI() {
-        setUIElem(cu.gpr, gpr);
-        setUIElem(cu.ixr, ixr);
+        setUIElems(cu.gpr, gpr);
+        setUIElems(cu.ixr, ixr);
+
+        setUIElem(cu.pc,pcController);
+        setUIElem(cu.mar,marController);
+        setUIElem(cu.ir,irController);
+
+        // Memory Fault register
+        // setUIElem(cu.mfr,mfrController);
     }
 
+    /**
+     * Function to convert to a 16-bit short
+     * @param s The binary string
+     * @return A short (byte array)
+     */
     private short toByteArray(String s) {
         short it = (short) Integer.parseInt(s, 16);
         System.out.println("Hexadecimal String: " + s);
         return it;
     }
 
-    private void setUIElem(Register[] registers, CheckBox[][] controllers){
+    /**
+     * Set multiple UI elements
+     * @param registers The array of registers
+     * @param controllers The array of UI controllers
+     */
+    private void setUIElems(Register[] registers, CheckBox[][] controllers){
         for(int i = 0; i< registers.length;i++){
             CheckBox[] controller = controllers[i];
             resetUI(controller);
@@ -314,6 +334,26 @@ public class ComputerController {
             for(int a: set_bits){
                 controller[15-a].setSelected(true);
             }
+        }
+    }
+
+    /**
+     * Set a single UI element
+     * @param register The register to set
+     * @param controller The UI controller
+     */
+    private void setUIElem(Register register, CheckBox[] controller){
+        resetUI(controller);
+        int[] set_bits = register.getSetBits();
+
+        if(set_bits == null){
+            return;
+        }
+
+        int length = register.get_size()-1;
+
+        for(int a: set_bits){
+            controller[length-a].setSelected(true);
         }
     }
 
