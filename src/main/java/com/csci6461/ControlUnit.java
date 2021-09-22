@@ -184,18 +184,23 @@ public class ControlUnit {
     }
 
     /**
-     * Does the processing for the LDA instruction
+     * Loads a register from memory
      * @param instruction The instruction as is from memory
      * @throws IOException Throws an IO exception
      */
-    private void processLDR(Instruction instruction) throws IOException{
+    private void processLD(Instruction instruction, boolean index) throws IOException{
         int[] args;
         args = instruction.getArguments();
 
         boolean[] data = getData(args[3],args[1],args[2]);
 
         try {
-            gpr[args[0]].load(data);
+            if (index){
+                ixr[args[1]].load(data);
+            } else {
+                gpr[args[0]].load(data);
+            }
+
         } catch (IOException e) {
             System.out.println("[ERROR]:: Could Not read memory");
             e.printStackTrace();
@@ -306,7 +311,7 @@ public class ControlUnit {
         switch (name) {
             case "LDR" -> {
                 System.out.println("[ControlUnit::singleStep] Processing LDR instruction...\n");
-                processLDR(decodedInstruction);
+                processLD(decodedInstruction, false);
             }
             case "STR" -> {
                 System.out.println("[ControlUnit::singleStep] Processing STA instruction...\n");
@@ -315,6 +320,10 @@ public class ControlUnit {
             case "LDA" -> {
                 System.out.println("[ControlUnit::singleStep] Processing LDA instruction...\n");
                 processLDA(decodedInstruction);
+            }
+            case "LDX" -> {
+                System.out.println("[ControlUnit::singleStep] Processing LDX instruction...\n");
+                processLD(decodedInstruction, true);
             }
         }
 

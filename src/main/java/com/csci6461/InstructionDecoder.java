@@ -29,8 +29,11 @@ public class InstructionDecoder {
      *         binary word (up to 16 bits) if index parameters are null
      */
     public String getBits(short word) {
-        String bits = String.format("%16s", Integer.toBinaryString(word)).replace(' ', '0');
-        return bits;
+        String s = Integer.toBinaryString(word);
+        String bits = String.format("%16s", s).replace(' ', '0');
+        System.out.println(bits.substring(bits.length()-16));
+
+        return bits.substring(bits.length()-16);
     }
 
     /**

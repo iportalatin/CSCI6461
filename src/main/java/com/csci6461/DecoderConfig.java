@@ -32,6 +32,8 @@ public class DecoderConfig {
         instructions.put(001, new MemOp("LDR"));
         instructions.put(002, new MemOp("STR"));
         instructions.put(003, new MemOp("LDA"));
+        instructions.put(041, new MemOp("LDX"));
+        instructions.put(042, new MemOp("STX"));
 
     }
 

@@ -13,7 +13,8 @@ public class MemOp extends Instruction{
     @Override
     int[] getArguments() {
         String bits = String.format("%16s", Integer.toBinaryString(super.getInstruction())).replace(' ', '0');
-        System.out.printf("[MiscInstruction::getArguments] Full instruction %s\n",
+        bits = bits.substring(bits.length()-16);
+        System.out.printf("[MemOp::getArguments] Full instruction %s\n",
                 bits);
 
         String gpr = bits.substring(6,8);
