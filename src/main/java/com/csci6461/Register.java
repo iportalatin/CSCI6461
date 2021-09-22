@@ -60,8 +60,6 @@ public class Register extends CBitSet {
                 name, Arrays.toString(data));
 
         super.set_bits(data);
-
-        System.out.printf("New value of %s register: %s\n", name, super.toString());
     }
 
     /**
