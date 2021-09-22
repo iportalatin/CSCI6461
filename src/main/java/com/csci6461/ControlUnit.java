@@ -192,7 +192,7 @@ public class ControlUnit {
      * @param instruction The instruction as is from memory
      * @throws IOException Throws an IO exception
      */
-    protected void processLDA(Instruction instruction) throws IOException{
+    protected void processLDR(Instruction instruction) throws IOException{
         int[] args;
         args = instruction.getArguments();
 
@@ -284,9 +284,9 @@ public class ControlUnit {
         }
 
         switch (name) {
-            case "LDA" -> {
-                System.out.println("[ControlUnit::singleStep] Processing LDA instruction...\n");
-                processLDA(decodedInstruction);
+            case "LDR" -> {
+                System.out.println("[ControlUnit::singleStep] Processing LDR instruction...\n");
+                processLDR(decodedInstruction);
             }
             case "STR" -> {
                 System.out.println("[ControlUnit::singleStep] Processing STA instruction...\n");

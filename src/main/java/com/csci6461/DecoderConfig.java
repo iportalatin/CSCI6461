@@ -29,8 +29,9 @@ public class DecoderConfig {
     DecoderConfig() {
         instructions.put(000, new MiscInstruction("HLT"));
         instructions.put(036, new MiscInstruction("TRAP"));
+        instructions.put(001, new MemOp("LDR"));
         instructions.put(002, new MemOp("STR"));
-        instructions.put(003, new MemOp("LDA"));
+
     }
 
     /**
