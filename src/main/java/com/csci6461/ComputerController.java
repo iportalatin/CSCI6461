@@ -2,6 +2,7 @@ package com.csci6461;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 
 import java.io.File;
@@ -77,6 +78,9 @@ public class ComputerController {
 
     @FXML
     private CheckBox ir_1,ir_2,ir_3,ir_4,ir_5,ir_6,ir_7,ir_8,ir_9,ir_10,ir_11,ir_12,ir_13,ir_14,ir_15,ir_16;
+
+    @FXML
+    private Label lblCode;
 
     private ToggleButton[] bitController;
 
@@ -218,6 +222,23 @@ public class ComputerController {
         cu.ixr[2].load(translateBits(ixr2Controller));
     }
 
+    @FXML
+    protected void onTranslateClick(){
+        boolean[] val = translateBits();
+
+        StringBuilder s = new StringBuilder();
+        for(boolean x: val){
+            if (x){ s.append("1");}
+            else{
+                s.append("0");}
+        }
+        short short_val = (short)Integer.parseInt(s.toString(),2);
+        String hex = Integer.toHexString(short_val & 0xffff);
+
+        hex = "0x"+hex;
+        lblCode.setText(hex);
+    }
+
 
 
     /**
@@ -237,6 +258,25 @@ public class ComputerController {
 
             // If bit is on add to bit set
             bits[controller.length-(1+i)] = val;
+        }
+
+        // Return the byte array
+        return bits;
+
+    }
+
+    /**
+     * Gets the 16-bit array values and flips the bits before resetting the user selected bits.
+     @return A byte array
+     */
+    private boolean[] translateBits() {
+        // Create a new bit set to track positions of 'on' bits
+        boolean[] bits = new boolean[16];
+
+        // Loop through the controller setting matching bits and adding the correct bit to the controller, reset bit.
+        for(int i=15; i>=0; i--) {
+            boolean val = bitController[i].isSelected();
+            bits[15-i]=val;
         }
 
         // Return the byte array
