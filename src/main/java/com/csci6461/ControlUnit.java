@@ -4,7 +4,6 @@
 package com.csci6461;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -73,10 +72,7 @@ public class ControlUnit {
      * Parameter to hold system clock
      */
     private final Clock systemClock;
-    /**
-     * Parameter to start/stop program execution
-     */
-    private boolean Continue = false;
+
     /**
      * Control Unit constructor will instantiate all registers and load 
      * the ROM program
@@ -165,7 +161,7 @@ public class ControlUnit {
      *
      * @param instruction An object implementing the Instruction abstract class for Miscellaneous instructions
      */
-    public void processTrap(Instruction instruction) {
+    private void processTrap(Instruction instruction) {
         /* Get trap code from instruction */
         int[] args = instruction.getArguments();
         System.out.printf("[ControlUnit::processTrap] Arguments for trap code instruction: %d\n", args[0]);
@@ -192,7 +188,7 @@ public class ControlUnit {
      * @param instruction The instruction as is from memory
      * @throws IOException Throws an IO exception
      */
-    protected void processLDR(Instruction instruction) throws IOException{
+    private void processLDR(Instruction instruction) throws IOException{
         int[] args;
         args = instruction.getArguments();
 
@@ -211,13 +207,34 @@ public class ControlUnit {
      * @param instruction The instruction as is from memory
      * @throws IOException Throws an IO exception
      */
-    protected void processSTR(Instruction instruction) throws IOException {
+    private void processSTR(Instruction instruction) throws IOException {
         int[] args;
         args = instruction.getArguments();
 
         short data = (short) gpr[args[0]].read();
 
         mainMemory.write(calculateEA(args[3],args[1],args[2]), data);
+    }
+
+    /**
+     * Stores a register to memory
+     * @param instruction The instruction as is from memory
+     * @throws IOException Throws an IO exception
+     */
+    private void processLDA(Instruction instruction) throws  IOException {
+        int[] args;
+        args = instruction.getArguments();
+
+        short effectiveAdr = calculateEA(args[3],args[1],args[2]);
+
+        boolean[] data = get_bool_array(getBinaryString(effectiveAdr));
+
+        try {
+            gpr[args[0]].load(data);
+        } catch (IOException e) {
+            System.out.println("[ERROR]:: Could Not read memory");
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -227,15 +244,18 @@ public class ControlUnit {
      * @throws InterruptedException ADD HERE
      */
     public void run() throws InterruptedException {
-        Continue = true;
+        /*
+         * Parameter to start/stop program execution
+         */
+        boolean aContinue = true;
         int ticks = 0;
-        while (Continue) {
+        while (aContinue) {
             
             systemClock.waitForNextTick();
             
             ticks++;
             if (ticks == 5) {
-                Continue = false;
+                aContinue = false;
             }
         }
     }
@@ -255,7 +275,7 @@ public class ControlUnit {
                 getBinaryString(instruction));
 
         /* Load the current instruction into the IR */
-        ir.load(get_bool_array(Integer.toBinaryString((int)instruction)));
+        ir.load(get_bool_array(Integer.toBinaryString(instruction)));
 
         /* Decode the instruction */
         Instruction decodedInstruction = instructionDecoder.decode(instruction);
@@ -292,6 +312,10 @@ public class ControlUnit {
                 System.out.println("[ControlUnit::singleStep] Processing STA instruction...\n");
                 processSTR(decodedInstruction);
             }
+            case "LDA" -> {
+                System.out.println("[ControlUnit::singleStep] Processing LDA instruction...\n");
+                processLDA(decodedInstruction);
+            }
         }
 
         short count = (short)pc.read();
@@ -310,7 +334,7 @@ public class ControlUnit {
      * @return returns the new address
      */
     private short calculateEA(int address, int ix, int i) throws IOException {
-        short ea = -1;
+        short ea;
 
         System.out.printf("[ControlUnit::CalculateEA] Fields are: Address = %d, IX = %d, I = %d\n",
                 address, ix, i);
