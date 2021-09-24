@@ -287,34 +287,45 @@ public class ComputerController {
 
     /**
      * Allows the user to select a file and then load that file into memory.
+     * This expects the file to be in the format "ADDRESS COMMAND" e.g. "0006 C268".
      */
     @FXML
     protected void onLoadFileClick() {
+        // UI for loading a file
         JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         fc.showOpenDialog(null);
+
+        // Save the file to the path
         String file_path = fc.getSelectedFile().getAbsolutePath();
 
+        // Try catch for opening a file
         try {
+            // Create a file reader
             File thisFile = new File(file_path);
             Scanner reader = new Scanner(thisFile);
 
+            // Loop over the reader until there are no new lines
             while (reader.hasNextLine()) {
 
+                // Split the line into an array of [Address, Command]
                 String[] data = reader.nextLine().split(" ",2);
+
+                // Convert these to boolean arrays for storing
                 short memory = toByteArray(data[0]);
                 short value = toByteArray(data[1]);
 
-                try {
-                    cu.writeDataToMemory(memory, value);
-                } catch (IOException ioe) {
-                    System.out.println("Error while writing data to memory.");
-                    ioe.printStackTrace();
-                }
+                cu.writeDataToMemory(memory, value);
             }
         } catch (FileNotFoundException e){
             System.out.println("ERROR: File not found!");
+        } catch (IOException e) {
+            System.out.println("ERROR: Loading program into memory!");
+            e.printStackTrace();
         }
+
+        // Update the program counters with the first command
         cu.get_first_command();
+        // Update the UI elements
         setUIElem(cu.pc, pcController);
     }
 
