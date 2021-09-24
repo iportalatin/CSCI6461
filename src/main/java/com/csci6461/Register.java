@@ -63,49 +63,13 @@ public class Register extends CBitSet {
     }
 
     /**
-     * This method loads a word of data into the register
-     * 
-     * @param data A byte array with each by to be loaded into register
-     * 
-     * @throws IOException If word is larger that register size
+     * Method to load a data word as a short
+     *
+     * @param data Short containing data word to load
      */
-//    public void load(byte[] data) throws IOException {
-//        System.out.printf("[Register::load] Input data for register %s: %s\n",
-//                name, Arrays.toString(data));
-//        /* Get a new bitset with the data provided */
-//        BitSet inputBits = BitSet.valueOf(data);
-//
-//        /* Check for overflow */
-//        System.out.printf("[Register::load] Size = %d; Input bit length: %d\n",
-//                size, inputBits.length());
-//        if (inputBits.length() > size) {
-//            /* Make sure any bits above register length are zeroed out */
-//            BitSet highBits = inputBits.get(size - 1, inputBits.length() - 1);
-//            System.out.printf("[Register::load] There are %d high bits: %s\n",
-//                    highBits.length(), highBits.toString());
-//            if (highBits.cardinality() > 0) {
-//                String error = String.format("Overflow on register %s",name);
-//                throw new IOException(error);
-//            }
-//        }
-//        /* Make sure all bits are reset to 0 before loading new data */
-//        super.set_zero();
-//
-//        /* Iterate through incoming data bits to find set bits */
-//        int i = 0;
-//        do {
-//            int nextSet = inputBits.nextSetBit(i);
-//            // System.out.printf("[Register::load] nextSet = %d, index = %d\n",
-//            //         nextSet, i);
-//            if (nextSet >= 0) {
-//                super.set(nextSet);
-//                i = nextSet + 1;
-//            }
-//        } while (inputBits.nextSetBit(i) >= 0 && i < size);
-//
-//        System.out.printf("New value of %s register: %s\n", name, super.toString());
-//    }
-
+    public void load(short data) throws IOException {
+        load(get_bool_array(Integer.toBinaryString(0xffff & data)));
+    }
 
     /**
      * This methods gets an array of ints with the position of the
@@ -159,5 +123,25 @@ public class Register extends CBitSet {
         System.out.printf("[Register::getSetBits] Have string representation from parent: %s\n", bits);
 
         return super.get_set_bits();
+    }
+
+    /**
+     * Converts a binary string to a boolean array
+     * @param binaryString The binary string to convert
+     * @return the boolean array.
+     */
+    private boolean[] get_bool_array(String binaryString) {
+
+        char[] binary = binaryString.toCharArray(); // Convert to character array
+        boolean[] data = new boolean[binary.length]; // Create a new boolean array
+
+        // Loop through array and flip bits where a 1 is present
+        for(int x=0; x<binary.length;x++){
+            if(binary[x] == '1'){
+                data[x] = true;
+            }
+        }
+
+        return data;
     }
 }
