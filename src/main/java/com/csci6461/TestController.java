@@ -19,179 +19,287 @@ import java.util.Arrays;
  * @author imanuelportalatin
  */
 public class TestController {
-    public static void main(String[] args) throws InterruptedException {
+
+     public static boolean[] get_bool_array(String binaryString) {
+
+        char[] binary = binaryString.toCharArray(); // Convert to character array
+        boolean[] data = new boolean[binary.length]; // Create a new boolean array
+
+        // Loop through array and flip bits where a 1 is present
+        for(int x=0; x<binary.length;x++){
+            if(binary[x] == '1'){
+                data[x] = true;
+            }
+        }
+
+        return data;
+    }
+
+    public static void main(String[] args) throws InterruptedException, IOException {
         System.out.println("Starting test controller");
-//
-//        /* Create new control unit */
-//        ControlUnit cu = new ControlUnit();
-//
-//        /* Test getting Program Counter (PC) properties */
-//        String pcName = cu.pc.getName();
-//        int pcSize = cu.pc.getSize();
-//
-//        System.out.printf("PC register properties: name = %s, size = %d\n",
-//                pcName, pcSize);
-//
-//        /* Check number of GPRs */
-//        int nGPR = cu.gpr.length;
-//        System.out.printf("Found %d GPRs in Control Unit.\n", nGPR);
-//
-//        /* Get properties for each GPR */
-//        for (int i = 0; i < nGPR; i++) {
-//            String gprName = cu.gpr[i].getName();
-//            int gprSize = cu.gpr[i].getSize();
-//
-//            System.out.printf("Properties for GPR %d: name = %s, size = %d\n",
-//                    i, gprName, gprSize);
-//        }
-//
-//        /* Test getting Memory Address Register (MAR) properties */
-//        String marName = cu.mar.getName();
-//        int marSize = cu.mar.getSize();
-//
-//        System.out.printf("MAR register properties: name = %s, size = %d\n",
-//                marName, marSize);
-//
-//        /* Test getting Memory Buffer Register (MBR) properties */
-//        String mbrName = cu.mbr.getName();
-//        int mbrSize = cu.mbr.getSize();
-//
-//        System.out.printf("MBR register properties: name = %s, size = %d\n",
-//                mbrName, mbrSize);
-//
-//        /* Test loading a alternating zeros and ones into the pc register */
-//        byte[] value = new byte[]{(byte) 0xff, (byte) 0x0A, (byte) 0x00};
-//        int[] input = new int[3];
-//        input[0] = value[0] & 0xff;
-//        input[1] = value[1] & 0xff;
-//        input[2] = value[2] & 0xff;
-//        System.out.printf("Writing data to pc: %s %s %s\n",
-//                Integer.toBinaryString(input[2]),
-//                Integer.toBinaryString(input[1]),
-//                Integer.toBinaryString(input[0]));
-////        System.out.printf("Loading value into pc: %s\n", Arrays.toString(value));
-//
-//        try {
-//            cu.pc.load(value);
-//        } catch (IOException ioe) {
-//            System.out.println("Execption while loading test word into pc...");
-//            ioe.printStackTrace();
-//        }
-//
-//        /* Test getting set bits from register */
-//        int[] bits = cu.pc.getSetBits();
-////        System.out.println("Retrieved set bits from pc:");
-////        for (int i = 0; i < bits.length; i++) {
-////            System.out.println(bits[i]);
-////        }
-//
-//        /* Test reading the pc register after load */
-//        byte[] outValue = cu.pc.read();
-//
-//        int[] result = new int[2];
-//        result[0] = outValue[0] & 0xff;
-//        result[1] = outValue[1] & 0xff;
-//        System.out.printf("Read data from pc: %s %s\n",
-//                Integer.toBinaryString(result[1]),
-//                Integer.toBinaryString(result[0]));
-//
-//        /* Test setting bits in register */
-//        System.out.println("Setting bits on pc...");
-//        int[] ones = new int[]{1,3,5,7,9,11};
-//        try {
-//            cu.pc.setBits(ones);
-//        } catch (IOException ioe) {
-//            System.out.println("Exception while setting bits on pc...");
-//            ioe.printStackTrace();
-//        }
-//
-//        /* Read pc after setting bits */
-//        outValue = cu.pc.read();
-//
-//        result[0] = outValue[0] & 0xff;
-//        result[1] = outValue[1] & 0xff;
-//        System.out.printf("Read data from pc: %s %s\n",
-//                Integer.toBinaryString(result[1]),
-//                Integer.toBinaryString(result[0]));
-//
-////        /* Test overflow protection on the pc register */
-////        value[2] = (byte) 0x01;
-////
-////        try {
-////            cu.pc.load(value);
-////        } catch (IOException ioe) {
-////            System.out.println("Exception while loading test word into pc...");
-////            ioe.printStackTrace();
-////        }
-//
-//        /* Test overflow protection when setting bits */
-////        ones = Arrays.copyOf(ones, ones.length + 1);
-////        ones[ones.length - 1] = 12;
-////
-////        System.out.println("Setting overflow bits on pc...");
-////        try {
-////            cu.pc.setBits(ones);
-////        } catch (IOException ioe) {
-////            System.out.println("Exception while setting bits on pc...");
-////            ioe.printStackTrace();
-////        }
-//
-//        /* Write a bunch of data to random locations in memory */
-//        short[] testData = new short[]{(short) 0xAAAA, (short) 0xffff};
-//        int[] addresses = new int[100];
-//        for (int i = 0; i < 100; i++) {
-//            int r = (int) (Math.random() * 2048);
-//            addresses[i] = Math.abs(r);
-//            short word = testData[i % 2];
-////            System.out.printf("Writing word %d to address %d\n", word, addresses[i]);
-//
-//            cu.load(addresses[i], word);
-//        }
-//
-//        /* Put an instruction in memory and save address to PC */
-////        short testInstruction = (short) 0xAAff;
-//        ByteBuffer buffer = ByteBuffer.allocate(2);
-//        buffer.order(ByteOrder.LITTLE_ENDIAN);
-//        buffer.put((byte) 0xAA);
-////        buffer.put((byte) 0xff);
-//        buffer.put((byte) 0x78);
-//        short testInstruction = buffer.getShort(0);
-//        byte[] testAddress = new byte[]{ 0x10, 0x04 };
-//        result[0] = testAddress[1] & 0xff;
-//        result[1] = testAddress[0] & 0xff;
-//        System.out.printf("Test instruction set to: %s %s\n",
-//                Integer.toBinaryString(result[0]),
-//                Integer.toBinaryString(result[1]));
-//
+
+        /* Create new control unit */
+        ControlUnit cu = new ControlUnit();
+
+        /* Test case 1: Execute TRAP */
+        System.out.println("\n\nTest Case 1: Execute TRAP.\n");
+        ByteBuffer buffer = ByteBuffer.allocate(2);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.put((byte) 0x07);
+        buffer.put((byte) 0x78);  /* TRAP */
+        ByteBuffer aBuffer = ByteBuffer.allocate(2);
+        aBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        aBuffer.put((byte) 0x10);
+        aBuffer.put((byte) 0x04);
+        short testInstruction = buffer.getShort(0);
+        short testAddress = aBuffer.getShort(0);
+
+        /* Put test value on memory */
+//        cu.load(6, (short) 0xffff);
+        cu.writeDataToMemory(6, (short) 0xffff);
+
+        System.out.printf("Instruction address set to: %d\n",
+                testAddress);
+
+        boolean [] address = get_bool_array(Integer.toBinaryString((int)testAddress));
+
 //        cu.load(1040, testInstruction);
-//        try {
-//            cu.pc.load(testAddress);
-//        } catch (IOException ioe) {
-//            System.out.println("Exception while loading test address into pc...");
-//            ioe.printStackTrace();
-//        }
-//
-//        /* Write memory address 6 to slot 1 for machine fault */
-//        short fault = 6;
+        cu.writeDataToMemory(1040, testInstruction);
+        try {
+            cu.pc.load(address);
+        } catch (IOException ioe) {
+            System.out.println("Exception while loading test address into pc...");
+            ioe.printStackTrace();
+        }
+
+        /* Write memory address 6 to slot 1 for machine fault */
+        short fault = 6;
 //        cu.load(1, fault);
-//
-//        /* Call singleStep on CU to execute test instruction */
+        cu.writeDataToMemory(1, fault);
+
+        /* Call singleStep on CU to execute test instruction */
+        try {
+            cu.singleStep();
+        } catch (IOException ioe) {
+            System.out.println("Exception during single step execution...");
+            ioe.printStackTrace();
+        }
+
+        /* Check IR after single step */
+        System.out.printf("The IR is: %s\n", Arrays.toString(cu.ir.getSetBits()));
+
+        /* Test Case 2: Load memory to register 0 without indirection or indexing */
+        System.out.println("\n\nTest Case 2: Load memory to register 0 without indirection or indexing.\n");
+        buffer.clear();
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.put((byte) 0x07);  /* Set Address Field to 7 */
+        buffer.put((byte) 0x04);  /* LDR Opcode = 1 + R = 00 */
+        aBuffer.clear();
+        aBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        aBuffer.put((byte) 0x10);
+        aBuffer.put((byte) 0x04);
+        testInstruction = buffer.getShort(0);
+        testAddress = aBuffer.getShort(0);
+
+        /* Put test value on memory */
+//        cu.load(7, (short) 0xffff);
+        cu.writeDataToMemory(7, (short) 0xffff);
+
+        System.out.printf("Instruction address set to: %d\n",
+                testAddress);
+
+        address = get_bool_array(Integer.toBinaryString((int)testAddress));
+
+//        cu.load(1040, testInstruction);
+        cu.writeDataToMemory(1040, testInstruction);
+        try {
+            cu.pc.load(address);
+        } catch (IOException ioe) {
+            System.out.println("Exception while loading test address into pc...");
+            ioe.printStackTrace();
+        }
+
+        /* Call singleStep on CU to execute test instruction */
 //        try {
 //            cu.singleStep();
 //        } catch (IOException ioe) {
 //            System.out.println("Exception during single step execution...");
 //            ioe.printStackTrace();
 //        }
-//
-//        /* Start the controller and display time before and after */
-////        LocalTime now = LocalTime.now();
-////        System.out.println("Starting CU at time:");
-////        System.out.println(now);
-////        cu.run();
-////        now = LocalTime.now();
-////        System.out.println("CU run stopped at time:");
-////        System.out.println(now);
-//
-//        System.out.println("Finishing test controller execution");
+
+        /* Read register 0 to make sure value was copied */
+        System.out.printf("Value of GPR 0 after LDA #1: %s",Arrays.toString(cu.gpr[0].getSetBits()));
+
+        /* Test Case 3: Load memory to register 1 without indirection but with indexing */
+        System.out.println("\n\nTest Case 3: Load memory to register 1 without indirection but with indexing.\n");
+        buffer.clear();
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.put((byte) 0x47);  /* Set Address Field to 7 with IX = 1   */
+        buffer.put((byte) 0x05);  /* Opcode for LDR = 1 + R = 01 */
+        aBuffer.clear();
+        aBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        aBuffer.put((byte) 0x10);
+        aBuffer.put((byte) 0x04);
+        testInstruction = buffer.getShort(0);
+        testAddress = aBuffer.getShort(0);
+
+        /* Put test value on memory */
+        /* Save to address 8 since address = 7 and IXR1 = 1 */
+//        cu.load(8, (short) 0xffff);
+        cu.writeDataToMemory(8, (short) 0xffff);
+
+        System.out.printf("Instruction address set to: %d\n",
+                testAddress);
+
+        address = get_bool_array(Integer.toBinaryString((int)testAddress));
+
+//        cu.load(1040, testInstruction);
+//        cu.writeDataToMemory(1040, testInstruction);
+        cu.writeDataToMemory(1041, testInstruction);
+        try {
+            cu.pc.load(address);
+        } catch (IOException ioe) {
+            System.out.println("Exception while loading test address into pc...");
+            ioe.printStackTrace();
+        }
+
+        /* Save value 1 to IXR1 */
+        ByteBuffer ixBuffer = ByteBuffer.allocate(2);
+        ixBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        ixBuffer.put((byte) 0x01);  /* Value of 1 */
+        ixBuffer.put((byte) 0x00);
+        short ixValue = ixBuffer.getShort(0);
+
+        boolean [] ixArray = get_bool_array(Integer.toBinaryString((int)ixValue));
+
+        try {
+            cu.ixr[0].load(ixArray);
+        } catch (IOException ioe) {
+            System.out.println("Exception while loading data into IXR...");
+            ioe.printStackTrace();
+        }
+        System.out.printf("IXR1 is set to: %d\n", cu.ixr[0].read());
+
+        /* Call singleStep on CU to execute test instruction */
+//        try {
+//            cu.singleStep();
+//        } catch (IOException ioe) {
+//            System.out.println("Exception during single step execution...");
+//            ioe.printStackTrace();
+//        }
+
+        /* Read register 1 to make sure value was copied */
+        System.out.printf("Value of GPR 1 after LDA #2: %s",Arrays.toString(cu.gpr[1].getSetBits()));
+
+        /* Test Case 4: Load memory to register 2 with indirection but without indexing */
+        System.out.println("\n\nLoad memory to register 2 with indirection but without indexing.\n");
+        buffer.clear();
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.put((byte) 0x27);  /* Set Address Field to 7 and I to 1 and IX to 0 */
+        buffer.put((byte) 0x06);  /* LDR opcode = 1 + R = 10 */
+        aBuffer.clear();
+        aBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        aBuffer.put((byte) 0x10);
+        aBuffer.put((byte) 0x04);
+        testInstruction = buffer.getShort(0);
+        testAddress = aBuffer.getShort(0);
+
+        /* Put test value on memory */
+//        cu.load(9, (short) 0xffff);
+        cu.writeDataToMemory(9, (short) 0xffff);
+
+        /* Copy indirect address to memory 7 */
+//        cu.load(7, (short) 0x0009);
+        cu.writeDataToMemory(7, (short) 0x0009);
+
+        System.out.printf("Instruction address set to: %d\n",
+                testAddress);
+
+        address = get_bool_array(Integer.toBinaryString((int)testAddress));
+
+//        cu.load(1040, testInstruction);
+//        cu.writeDataToMemory(1040, testInstruction);
+        cu.writeDataToMemory(1042, testInstruction);
+        try {
+            cu.pc.load(address);
+        } catch (IOException ioe) {
+            System.out.println("Exception while loading test address into pc...");
+            ioe.printStackTrace();
+        }
+
+        /* Call singleStep on CU to execute test instruction */
+//        try {
+//            cu.singleStep();
+//        } catch (IOException ioe) {
+//            System.out.println("Exception during single step execution...");
+//            ioe.printStackTrace();
+//        }
+
+        /* Read register 2 to make sure value was copied */
+        System.out.printf("Value of GPR 2 after LDA #3: %s",Arrays.toString(cu.gpr[2].getSetBits()));
+
+        /* Test Case 5: Load memory to register 3 with indirection AND indexing */
+        System.out.println("\n\nTest Case 3: Load memory to register 3 with indirection AND indexing.\n");
+        buffer.clear();
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.put((byte) 0xA7);  /* Set Address Field to 7 with IX = 2, I = 1 */
+        buffer.put((byte) 0x07);  /* LDR Opcode = 1 + R = 11 */
+        aBuffer.clear();
+        aBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        aBuffer.put((byte) 0x13);
+        aBuffer.put((byte) 0x04);
+        testInstruction = buffer.getShort(0);
+        testAddress = aBuffer.getShort(0);
+
+        /* Put test value on memory */
+        /* Save to address 11 since address 7 has value of 9 and IXR2 will be set to 2 */
+//        cu.load(11, (short) 0xffff);
+        cu.writeDataToMemory(11, (short) 0xffff);
+
+        System.out.printf("Instruction address set to: %d\n",
+                testAddress);
+
+        address = get_bool_array(Integer.toBinaryString((int)testAddress));
+
+//        cu.load(1040, testInstruction);
+//        cu.writeDataToMemory(1040,testInstruction);
+        cu.writeDataToMemory(1043,testInstruction);
+        cu.writeDataToMemory(1044,(short) 0x0000);
+
+        try {
+            cu.pc.load(address);
+        } catch (IOException ioe) {
+            System.out.println("Exception while loading test address into pc...");
+            ioe.printStackTrace();
+        }
+
+        /* Save value 2 to IXR1 */
+        ixBuffer.clear();
+        ixBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        ixBuffer.put((byte) 0x02);  /* Value of 1 */
+        ixBuffer.put((byte) 0x00);
+        ixValue = ixBuffer.getShort(0);
+
+        ixArray = get_bool_array(Integer.toBinaryString((int)ixValue));
+
+        try {
+            cu.ixr[1].load(ixArray);
+        } catch (IOException ioe) {
+            System.out.println("Exception while loading data into IXR...");
+            ioe.printStackTrace();
+        }
+        System.out.printf("IXR2 is set to: %d\n", cu.ixr[1].read());
+
+        /* Call singleStep on CU to execute test instruction */
+        try {
+//            cu.singleStep();
+            cu.run();
+        } catch (InterruptedException ioe) {
+            System.out.println("Exception during single step execution...");
+            ioe.printStackTrace();
+        }
+
+        /* Read register 0 to make sure value was copied */
+        System.out.printf("Value of GPR 3 after LDA #2: %s",Arrays.toString(cu.gpr[3].getSetBits()));
     }
 }

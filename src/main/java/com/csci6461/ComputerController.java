@@ -2,16 +2,15 @@ package com.csci6461;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.BitSet;
 import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-import java.math.BigInteger;
 
 /**
  * Class for controlling elements of the UI.
@@ -22,7 +21,7 @@ public class ComputerController {
     /**
      * Control unit for the system
      */
-    private ControlUnit cu = new ControlUnit();
+    private final ControlUnit cu = new ControlUnit();
 
     @FXML
     private ToggleButton adr0, adr1, adr2, adr3, adr4;
@@ -72,11 +71,14 @@ public class ComputerController {
     private CheckBox ixr2_1, ixr2_2, ixr2_3, ixr2_4, ixr2_5,ixr2_6,ixr2_7,ixr2_8,ixr2_9,ixr2_10,ixr2_11,ixr2_12,
             ixr2_13,ixr2_14,ixr2_15,ixr2_16;
 
-    @FXML
-    private CheckBox mfr_1,mfr_2,mfr_4,mfr_8;
+//    @FXML
+//    private CheckBox mfr_1,mfr_2,mfr_4,mfr_8;
 
     @FXML
     private CheckBox ir_1,ir_2,ir_3,ir_4,ir_5,ir_6,ir_7,ir_8,ir_9,ir_10,ir_11,ir_12,ir_13,ir_14,ir_15,ir_16;
+
+    @FXML
+    private Label lblCode;
 
     private ToggleButton[] bitController;
 
@@ -91,7 +93,7 @@ public class ComputerController {
     private CheckBox[] ixr1Controller;
     private CheckBox[] ixr2Controller;
     private CheckBox[] irController;
-    private CheckBox[] mfrController;
+    // private CheckBox[] mfrController;
 
     private CheckBox[][] gpr;
     private CheckBox[][] ixr;
@@ -128,7 +130,7 @@ public class ComputerController {
 
         irController = new CheckBox[]{ir_1,ir_2,ir_3,ir_4,ir_5,ir_6,ir_7,ir_8,ir_9,ir_10,ir_11,ir_12,ir_13,ir_14,
                 ir_15,ir_16};
-        mfrController = new CheckBox[]{mfr_1,mfr_2,mfr_4,mfr_8};
+        // mfrController = new CheckBox[]{mfr_1,mfr_2,mfr_4,mfr_8};
 
         gpr = new CheckBox[][]{gpr0Controller,gpr1Controller,gpr2Controller,gpr3Controller};
         ixr = new CheckBox[][]{ixr0Controller,ixr1Controller,ixr2Controller};
@@ -218,6 +220,23 @@ public class ComputerController {
         cu.ixr[2].load(translateBits(ixr2Controller));
     }
 
+    @FXML
+    protected void onTranslateClick(){
+        boolean[] val = translateBits();
+
+        StringBuilder s = new StringBuilder();
+        for(boolean x: val){
+            if (x){ s.append("1");}
+            else{
+                s.append("0");}
+        }
+        short short_val = (short)Integer.parseInt(s.toString(),2);
+        String hex = Integer.toHexString(short_val & 0xffff);
+
+        hex = "0x"+hex;
+        lblCode.setText(hex);
+    }
+
 
 
     /**
@@ -245,8 +264,26 @@ public class ComputerController {
     }
 
     /**
+     * Gets the 16-bit array values and flips the bits before resetting the user selected bits.
+     @return A byte array
+     */
+    private boolean[] translateBits() {
+        // Create a new bit set to track positions of 'on' bits
+        boolean[] bits = new boolean[16];
+
+        // Loop through the controller setting matching bits and adding the correct bit to the controller, reset bit.
+        for(int i=15; i>=0; i--) {
+            boolean val = bitController[i].isSelected();
+            bits[15-i]=val;
+        }
+
+        // Return the byte array
+        return bits;
+
+    }
+
+    /**
      * Allows the user to select a file and then load that file into memory.
-     * @throws IOException
      */
     @FXML
     protected void onLoadFileClick() {
@@ -264,7 +301,12 @@ public class ComputerController {
                 short memory = toByteArray(data[0]);
                 short value = toByteArray(data[1]);
 
-                cu.load(memory,value);
+                try {
+                    cu.writeDataToMemory(memory, value);
+                } catch (IOException ioe) {
+                    System.out.println("Error while writing data to memory.");
+                    ioe.printStackTrace();
+                }
             }
         } catch (FileNotFoundException e){
             System.out.println("ERROR: File not found!");
@@ -281,7 +323,7 @@ public class ComputerController {
 
     /**
      * Advance the simulation 1 step
-     * @throws IOException
+     * @throws IOException IO exception from parent
      */
     @FXML
     protected void onStepClick() throws IOException{
@@ -289,18 +331,38 @@ public class ComputerController {
         updateUI();
     }
 
+    /**
+     * Update the entire UI after a step
+     */
     private void updateUI() {
-        setUIElem(cu.gpr, gpr);
-        setUIElem(cu.ixr, ixr);
+        setUIElems(cu.gpr, gpr);
+        setUIElems(cu.ixr, ixr);
+
+        setUIElem(cu.pc,pcController);
+        setUIElem(cu.mar,marController);
+        setUIElem(cu.ir,irController);
+
+        // Memory Fault register
+        // setUIElem(cu.mfr,mfrController);
     }
 
+    /**
+     * Function to convert to a 16-bit short
+     * @param s The binary string
+     * @return A short (byte array)
+     */
     private short toByteArray(String s) {
         short it = (short) Integer.parseInt(s, 16);
         System.out.println("Hexadecimal String: " + s);
         return it;
     }
 
-    private void setUIElem(Register[] registers, CheckBox[][] controllers){
+    /**
+     * Set multiple UI elements
+     * @param registers The array of registers
+     * @param controllers The array of UI controllers
+     */
+    private void setUIElems(Register[] registers, CheckBox[][] controllers){
         for(int i = 0; i< registers.length;i++){
             CheckBox[] controller = controllers[i];
             resetUI(controller);
@@ -314,6 +376,26 @@ public class ComputerController {
             for(int a: set_bits){
                 controller[15-a].setSelected(true);
             }
+        }
+    }
+
+    /**
+     * Set a single UI element
+     * @param register The register to set
+     * @param controller The UI controller
+     */
+    private void setUIElem(Register register, CheckBox[] controller){
+        resetUI(controller);
+        int[] set_bits = register.getSetBits();
+
+        if(set_bits == null){
+            return;
+        }
+
+        int length = register.get_size()-1;
+
+        for(int a: set_bits){
+            controller[length-a].setSelected(true);
         }
     }
 
