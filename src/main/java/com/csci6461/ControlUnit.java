@@ -123,7 +123,7 @@ public class ControlUnit {
          * Create main memory of appropriate size
          */
         try {
-            mainMemory = new Memory(MEMORY_SIZE);
+            mainMemory = new Memory(MEMORY_SIZE,mar,mbr);
         } catch(IOException ioe) {
             System.out.println("Execption while creating computer memory...");
             ioe.printStackTrace();
@@ -139,21 +139,52 @@ public class ControlUnit {
          */
         systemClock = new Clock(CLOCK_TIMEOUT);
     }
+
     /**
-     * Method to implement LOAD function of simulated computer
-     * NOTE: Right now this just saves a word into memory but we will probably 
-     *       have to implement more logic to decode addresses/indexing later on
-     * 
-     * @param address Int with memory address into which data will be loaded
-     * @param data Short with data word to be saved to memory
+     * Method to get a data word from memory; It copied the address to MAR and gets the result from MBR
+     *
+     * @param address Int with memory address from which to read data
+     *
+     * @return a short with data read from memory
      */
-    public void load(int address, short data) {
+    public short loadDataFromMemory(int address) {
+        /* Copy the address into the MAR */
         try {
-            mainMemory.write(address, data);
+            mar.load((short)address);
+        } catch(IOException ioe) {
+            System.out.println("Exception while writing to MAR...");
+            ioe.printStackTrace();
+        }
+
+        /* Signal memory load data into MBR */
+        try {
+            mainMemory.read();
         } catch(IOException ioe) {
             System.out.println("Exception while writing to memory...");
             ioe.printStackTrace();
         }
+
+        /* Read data from MBR and return */
+        short data = (short) mbr.read();
+        return(data);
+    }
+
+    /**
+     * This method writes data to a memory address; It copies the data to MBR and the address to MAR
+     * and then calls the method in memory to write the data
+     *
+     * @param address Int with address in memory in which to load data
+     * @param data Short with data to load into memory
+     */
+    public void writeDataToMemory (int address, short data) throws IOException {
+        /* Load the address into MAR */
+        mar.load((short)address);
+
+        /* Load data to MBR */
+        mbr.load(data);
+
+        /* Call method to load data on MBR into memory */
+        mainMemory.write();
     }
 
     /**
@@ -169,7 +200,7 @@ public class ControlUnit {
         /* Per instructions, trap logic for Part 1 only fetches memory location 1 and saves it PC  */
         /* NOTE: Memory location 1 should contain the address of memory location 6, which should have a HALT */
         try {
-            short faultAddress = mainMemory.read(1);
+            short faultAddress = loadDataFromMemory(1);
 
             /* Convert word read from memory to byte array */
             boolean[] bytes = get_bool_array(getBinaryString(faultAddress,12));
@@ -192,13 +223,15 @@ public class ControlUnit {
         int[] args;
         args = instruction.getArguments();
 
-        boolean[] data = getData(args[3],args[1],args[2]);
+        getData(args[3],args[1],args[2]);
+
+        int data = mbr.read();
 
         try {
             if (index){
-                ixr[args[1]].load(data);
+                ixr[args[1]].load((short) data);
             } else {
-                gpr[args[0]].load(data);
+                gpr[args[0]].load((short) data);
             }
 
         } catch (IOException e) {
@@ -224,7 +257,7 @@ public class ControlUnit {
         }
 
 
-        mainMemory.write(calculateEA(args[3],args[1],args[2]), data);
+        writeDataToMemory(calculateEA(args[3],args[1],args[2]), data);
     }
 
     /**
@@ -250,9 +283,8 @@ public class ControlUnit {
     
     /**
      * Method to trigger program execution
-     * NOTE: This currently waits for clock cycles. We still need 
-     *       to implement program load and execute logic.
-     * @throws InterruptedException ADD HERE
+     *
+     * @throws InterruptedException When current thread is interrupted by another thread
      */
     public void run() throws InterruptedException {
         /*
@@ -263,10 +295,12 @@ public class ControlUnit {
         while (aContinue) {
             
             systemClock.waitForNextTick();
-            
-            ticks++;
-            if (ticks == 5) {
-                aContinue = false;
+
+            try {
+                aContinue = singleStep();
+            } catch (IOException ioe) {
+                System.out.println("Error during step execution");
+                ioe.printStackTrace();
             }
         }
     }
@@ -274,19 +308,21 @@ public class ControlUnit {
     /**
      * Method to execute single step by getting the next instruction in
      * memory, decoding it and executing it
+     *
+     * @return A boolean set to false whenever halt is received
      */
-    public void singleStep() throws IOException {
+    public boolean singleStep() throws IOException {
         /* Get next instruction address from PC and convert to int */
         int iPC = pc.read();
         System.out.printf("[ControlUnit::singleStep] Next instruction address is %d\n", iPC);
 
         /* Get instruction at address indicated by PC */
-        short instruction = mainMemory.read(iPC);
+        short instruction = loadDataFromMemory(iPC);
         System.out.printf("[ControlUnit::singleStep] Have next instruction: %s\n",
                 getBinaryString(instruction));
 
         /* Load the current instruction into the IR */
-        ir.load(get_bool_array(Integer.toBinaryString(instruction)));
+        ir.load(get_bool_array(Integer.toBinaryString((int)instruction)));
 
         /* Decode the instruction */
         Instruction decodedInstruction = instructionDecoder.decode(instruction);
@@ -307,11 +343,11 @@ public class ControlUnit {
         /* Check to see if the code is a "special" instruction */
         if(Objects.equals(name, "HLT")) {
             System.out.println("[ControlUnit::singleStep] Processing Halt instruction...\n");
-            return;
+            return(false);
         } else if(Objects.equals(name, "TRAP")) {
             System.out.println("[ControlUnit::singleStep] Processing Trap instruction...\n");
             processTrap(decodedInstruction);
-            return;
+            return(true);
         }
 
         switch (name) {
@@ -342,7 +378,7 @@ public class ControlUnit {
         boolean[] _new_count = get_bool_array(getBinaryString(count));
         pc.set_bits(_new_count);
 
-
+        return(true);
     }
 
     /**
@@ -353,7 +389,7 @@ public class ControlUnit {
      * @return returns the new address
      */
     private short calculateEA(int address, int ix, int i) throws IOException {
-        short ea;
+        short ea = -1;
 
         System.out.printf("[ControlUnit::CalculateEA] Fields are: Address = %d, IX = %d, I = %d\n",
                 address, ix, i);
@@ -383,7 +419,7 @@ public class ControlUnit {
             /* If IX = 0; then indirect address but NO indexing */
             if (ix == 0) {
                 System.out.println("[ControlUnit::CalculateEA] Indirect address without indexing");
-                ea = mainMemory.read(address);
+                ea = loadDataFromMemory(address);
             } else {
                 /* If IX > 0; then we're using indexing */
                 /* NOTE: We must adjust for Java 0 index since IX registers start at 1 NOT 0 */
@@ -393,7 +429,10 @@ public class ControlUnit {
                     /*                           EA = c(address) + c(IX)                                */
                     ix--;   /* Decrement IX to adjust for Java array indexing */
                     System.out.println("[ControlUnit::CalculateEA] Direct address with indexing.");
-                    ea = (short) (mainMemory.read(address) + ixr[ix].read());
+
+                    /* Place address in MAR and call method to get indirect address into MBR */
+
+                    ea = (short) (loadDataFromMemory(address) + ixr[ix].read());
                 } else {
                     String error = String.format("Error: Index register out of bounds: %d\n", ix);
                     throw new IOException(error);
@@ -442,17 +481,21 @@ public class ControlUnit {
     }
 
     /**
-     * Gets data as a boolean array to be stored as a byte array
+     * Gets data from main memory into MBR
      * @param address The physical address given in opcode
      * @param ix The index register
      * @param i The indirect addressing state
      * @return Returns a boolean array
      */
-    private boolean[] getData(int address, int ix, int i) throws IOException{
+    private void getData(int address, int ix, int i) throws IOException{
+        /* Calculate effective address with indexing and indirection (if any) */
         short effectiveAddress = calculateEA(address, ix, i);
-        String mem_value = getBinaryString(mainMemory.read(effectiveAddress));
 
-        return get_bool_array(mem_value);
+        /* Save effective address into MAR */
+        mar.load(effectiveAddress);
+
+        /* Call method to transfer memory address to MBR */
+        mainMemory.read();
     }
 
     /**

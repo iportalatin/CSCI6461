@@ -25,17 +25,26 @@ public class Memory {
      * Total size of the memory array in 16-bit words
      */
     private int size;
-    
+    /**
+     * Parameter to hold Memory Address Register (MAR) to hold address for read/write
+     */
+    Register mar;
+    /**
+     * Parameter to hold Memory Buffer Register (MBR) to receive input/output data
+     */
+    Register mbr;
     /**
      * The memory class constructor creates a new data storage array of 
      * the specified size and assigns it to the data private variable. The 
      * size if also saved for reference.
      * 
      * @param s Size of memory array in number of 16-bit words
+     * @param mar Register object to use as Memory Address Register (MAR)
+     * @param mbr Register object to use as Memory Buffer Register (MBR)
      * 
      * @throws IOException If an invalid memory size is specified
      */
-    public Memory(int s) throws IOException {
+    public Memory(int s, Register mar, Register mbr) throws IOException {
         if (s <= 0) {
             String error = String.format(
                "Invalid memory size: %d; Memory size must greater than zero.",
@@ -46,47 +55,55 @@ public class Memory {
         /* Save size and initalize data to new array of specified size */
         size = s;
         data = new short[size];
+
+        /* Set MAR and MBR parameters */
+        this.mar = mar;
+        this.mbr = mbr;
     }
-    
+
     /**
-     * This method writes a word into main memory at the specified address
-     * 
-     * @param address An int with the address where data will be stored
-     * @param word A short with the 16-bit word of data to write into memory
-     * 
-     * @throws IOException If an invalid address is specified
+     * This method writes the data stored in MBR into the address indicated by MAR
+     *
+     * @throws IOException If address in MAR is invalid
      */
-    public void write(int address, short word) throws IOException {
+    public void write() throws IOException {
+        /* Get the address from the MAR */
+        short address = (short) mar.read();
+
+        /* Check for out of bounds address */
         if (address < 0 || address >= size) {
             String error = String.format(
-               "Invalid memory address: %d; Addresses must be between 0 and %d.",
-                address, size);
+                    "Invalid memory address: %d; Addresses must be between 0 and %d.",
+                    address, size);
             throw new IOException(error);
         }
-        data[address] = word;
-        /* Save input word into slot corresponding to the specified address */
-        System.out.printf("[Memory::write] Writing value %d to memory address %d\n", 
-                word, address);
+
+        /* Copy value in MBR into the specified address in memory */
+        data[address] = (short) mbr.read();
     }
-    
+
     /**
-     * This method reads the specified location in memory 
-     * 
-     * @param address An int with the address in memory to read
-     * 
-     * @return A 16-bit word with the data at the specified location in memory
-     * 
+     * This method reads data at location specified by MAR and copies it to MBR
+     *
      * @throws IOException If an invalid address is received
      */
-    public short read(int address) throws IOException {
+    public void read() throws IOException {
+        /* Get the address from MAR */
+        int address = mar.read();
+
         if (address < 0 || address >= size) {
             String error = String.format(
-               "Invalid memory address: %d; Addresses must be between 0 and %d.",
-                address, size);
+                    "Invalid memory address: %d; Addresses must be between 0 and %d.",
+                    address, size);
             throw new IOException(error);
         }
         /* Return data at specified location */
-        return(data[address]);
+        short word = data[address];
+        System.out.printf("Read data word from memory: %s\n",
+                Integer.toBinaryString(0xffff & word));
+
+        /* Copy retrieved word into MBR */
+        mbr.load(word);
     }
 
     /**

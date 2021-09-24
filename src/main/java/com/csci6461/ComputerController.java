@@ -301,7 +301,12 @@ public class ComputerController {
                 short memory = toByteArray(data[0]);
                 short value = toByteArray(data[1]);
 
-                cu.load(memory,value);
+                try {
+                    cu.writeDataToMemory(memory, value);
+                } catch (IOException ioe) {
+                    System.out.println("Error while writing data to memory.");
+                    ioe.printStackTrace();
+                }
             }
         } catch (FileNotFoundException e){
             System.out.println("ERROR: File not found!");
