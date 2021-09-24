@@ -4,6 +4,7 @@
 package com.csci6461;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -184,6 +185,16 @@ public class ControlUnit {
 
         /* Call method to load data on MBR into memory */
         mainMemory.write();
+    }
+
+    /**
+     * Get the first command from memory using the memory class and update the program counter to it.
+     */
+    public void get_first_command(){
+        short first_code =  (short) this.mainMemory.get_first_code();
+        boolean[] pc_bits = get_bool_array(getBinaryString(first_code));
+        System.out.println(Arrays.toString(pc_bits));
+        pc.set_bits(pc_bits);
     }
 
     /**
@@ -465,6 +476,7 @@ public class ControlUnit {
     /**
      * Get the n-bit binary string
      * @param word 16-bit word to convert to binary
+     * @param n The cut-off point for the string
      * @return Returns the binary string with all 16-bits
      */
     private String getBinaryString(short word, int n){

@@ -144,4 +144,17 @@ public class Memory {
         return  newS;
     }
 
+    /**
+     * Gets the first address past the reserved addresses that contains a code
+     * @return Returns an address location
+     */
+    public int get_first_code() {
+        for(int i = 6; i< size; i++){
+            if(this.data[i] != 0){
+                return i;
+            }
+        }
+        return 5;
+    }
+
 }

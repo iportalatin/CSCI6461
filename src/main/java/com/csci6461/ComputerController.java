@@ -314,6 +314,8 @@ public class ComputerController {
         } catch (FileNotFoundException e){
             System.out.println("ERROR: File not found!");
         }
+        cu.get_first_command();
+        setUIElem(cu.pc, pcController);
     }
 
     /**
