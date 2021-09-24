@@ -153,6 +153,9 @@ public class ComputerController {
     @FXML
     protected void onMARLoadClick() throws IOException{
         cu.mar.load(translateBits(marController));
+        cu.read_mem();
+
+        setUIElem(cu.mbr, mbrController);
     }
 
     /**

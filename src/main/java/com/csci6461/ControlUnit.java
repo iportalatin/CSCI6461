@@ -165,8 +165,7 @@ public class ControlUnit {
         }
 
         /* Read data from MBR and return */
-        short data = (short) mbr.read();
-        return(data);
+        return((short) mbr.read());
     }
 
     /**
@@ -291,7 +290,6 @@ public class ControlUnit {
          * Parameter to start/stop program execution
          */
         boolean aContinue = true;
-        int ticks = 0;
         while (aContinue) {
             
             systemClock.waitForNextTick();
@@ -389,7 +387,7 @@ public class ControlUnit {
      * @return returns the new address
      */
     private short calculateEA(int address, int ix, int i) throws IOException {
-        short ea = -1;
+        short ea;
 
         System.out.printf("[ControlUnit::CalculateEA] Fields are: Address = %d, IX = %d, I = %d\n",
                 address, ix, i);
@@ -485,7 +483,6 @@ public class ControlUnit {
      * @param address The physical address given in opcode
      * @param ix The index register
      * @param i The indirect addressing state
-     * @return Returns a boolean array
      */
     private void getData(int address, int ix, int i) throws IOException{
         /* Calculate effective address with indexing and indirection (if any) */
@@ -516,6 +513,18 @@ public class ControlUnit {
         }
 
         return data;
+    }
+
+    /**
+     * Performs the read memory action
+     */
+    public void read_mem() {
+        try {
+            mainMemory.read();
+        } catch (IOException e) {
+            System.out.println("[ERROR]:: Could not read memory");
+            e.printStackTrace();
+        }
     }
     
 }
