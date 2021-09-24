@@ -291,28 +291,28 @@ public class ControlUnit {
         }
     }
     
-    /**
-     * Method to trigger program execution
-     *
-     * @throws InterruptedException When current thread is interrupted by another thread
-     */
-    public void run() throws InterruptedException {
-        /*
-         * Parameter to start/stop program execution
-         */
-        boolean aContinue = true;
-        while (aContinue) {
-            
-            systemClock.waitForNextTick();
-
-            try {
-                aContinue = singleStep();
-            } catch (IOException ioe) {
-                System.out.println("Error during step execution");
-                ioe.printStackTrace();
-            }
-        }
-    }
+//    /**
+//     * Method to trigger program execution
+//     *
+//     * @throws InterruptedException When current thread is interrupted by another thread
+//     */
+//    public void run() throws InterruptedException {
+//        /*
+//         * Parameter to start/stop program execution
+//         */
+//        boolean aContinue = true;
+//        while (aContinue) {
+//
+//            systemClock.waitForNextTick();
+//
+//            try {
+//                aContinue = singleStep();
+//            } catch (IOException ioe) {
+//                System.out.println("Error during step execution");
+//                ioe.printStackTrace();
+//            }
+//        }
+//    }
 
     /**
      * Method to execute single step by getting the next instruction in

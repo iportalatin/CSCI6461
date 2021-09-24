@@ -450,5 +450,6 @@
          </font>
       </Label>
       <Button layoutX="876.0" layoutY="664.0" mnemonicParsing="false" onAction="#onTranslateClick" text="Translate" />
+      <Button layoutX="1016.0" layoutY="619.0" mnemonicParsing="false" onAction="#onRunClick" prefHeight="35.0" prefWidth="37.0" text="Run" />
    </children>
 </Pane>

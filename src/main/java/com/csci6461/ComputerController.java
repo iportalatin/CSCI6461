@@ -394,9 +394,25 @@ public class ComputerController {
      * @throws IOException IO exception from parent
      */
     @FXML
-    protected void onStepClick() throws IOException{
-        cu.singleStep();
+    protected boolean onStepClick() throws IOException{
+        boolean b =  cu.singleStep();
         updateUI();
+        return b;
+    }
+
+    @FXML
+    protected void onRunClick() throws InterruptedException {
+        boolean run  = true;
+
+        while(run){
+            try {
+                run = onStepClick();
+            } catch (IOException e) {
+                System.out.println("ERROR :: There was an error running the program");
+                e.printStackTrace();
+                throw new InterruptedException();
+            }
+        }
     }
 
     /**
