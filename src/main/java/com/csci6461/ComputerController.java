@@ -400,6 +400,10 @@ public class ComputerController {
         return b;
     }
 
+    /**
+     * Runs a complete program on click of button
+     * @throws InterruptedException Passes any IO exceptions up the stack.
+     */
     @FXML
     protected void onRunClick() throws InterruptedException {
         boolean run  = true;
