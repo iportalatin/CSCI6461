@@ -29,6 +29,12 @@ public class DecoderConfig {
     DecoderConfig() {
         instructions.put(000, new MiscInstruction("HLT"));
         instructions.put(036, new MiscInstruction("TRAP"));
+        instructions.put(001, new MemOp("LDR"));
+        instructions.put(002, new MemOp("STR"));
+        instructions.put(003, new MemOp("LDA"));
+        instructions.put(041, new MemOp("LDX"));
+        instructions.put(042, new MemOp("STX"));
+
     }
 
     /**
@@ -41,11 +47,7 @@ public class DecoderConfig {
     public Instruction getInstruction(int opCode){
         Instruction instruction = instructions.get(opCode);
 
-        if (instruction != null) {
-            return instruction;
-        } else {
-            return null;
-        }
+        return instruction;
     }
 
 }
