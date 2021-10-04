@@ -70,6 +70,11 @@ public class ControlUnit {
     private final InstructionDecoder instructionDecoder;
 
     /**
+     * Parameter to hold the Arithmetic Logic Unit (ALU)
+     */
+    private final ALU alu;
+
+    /**
      * Parameter to hold system clock
      */
     private final Clock systemClock;
@@ -134,6 +139,11 @@ public class ControlUnit {
          * Create instruction decoder
          */
         instructionDecoder = new InstructionDecoder();
+
+        /*
+         * Create ALU
+         */
+        alu = new ALU(gpr,mbr);
 
         /*
          * Create system clock and initialize to configured timeout
@@ -290,6 +300,27 @@ public class ControlUnit {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Processes addition/subtraction from memory to register (E.g. AMR or MBR)
+     *
+     * @param instruction Class with decode instruction
+     *
+     * @return An int with the condition code (0-3)
+     */
+    private int processMathMR(Instruction instruction) throws IOException {
+        int[] args;
+
+        /* Get instruction arguments */
+        args = instruction.getArguments();
+
+        /* Get data from memory into MBR */
+        getData(args[3],args[1],args[2]);
+
+        /* Call operate on ALU with Opcode and return condition code */
+
+        return alu.operate(instruction.getName(),args[0]);
+    }
     
 //    /**
 //     * Method to trigger program execution
@@ -374,6 +405,12 @@ public class ControlUnit {
         } else if (name.equals("STX")) {
             System.out.println("[ControlUnit::singleStep] Processing STX instruction...\n");
             processST(decodedInstruction, true);
+        } else if (name.equals("AMR")) {
+            System.out.println("[ControlUnit::singleStep] Processing STX instruction...\n");
+            processMathMR(decodedInstruction);
+        } else if (name.equals("AMR")) {
+            System.out.println("[ControlUnit::singleStep] Processing STX instruction...\n");
+            processMathMR(decodedInstruction);
         }
 
         short count = (short)pc.read();
